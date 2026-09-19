@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<meta name="description"
-content="Educational fake sportsbook and crash-game simulation. No real betting or payments.">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-<title>OddsLab — Scam Awareness Simulation</title>
+<title>Bet Demo — Educational Scam Awareness Simulator</title>
+
+<meta
+    name="description"
+    content="Educational simulated betting interface demonstrating why users should verify online betting websites."
+>
 
 <style>
 
@@ -21,735 +28,970 @@ content="Educational fake sportsbook and crash-game simulation. No real betting 
     padding:0;
 }
 
-:root{
-    --bg:#0c1621;
-    --bg2:#111e2b;
-    --panel:#172634;
-    --panel2:#203342;
-    --panel3:#263c4d;
-    --line:#2d4353;
-
-    --text:#f4f7fa;
-    --muted:#8b9baa;
-
-    --green:#69b51b;
-    --green2:#8bd52b;
-
-    --yellow:#ffd400;
-    --red:#ff4f55;
-    --orange:#ff9f43;
-
-    --shadow:0 15px 50px rgba(0,0,0,.45);
+html{
+    scroll-behavior:smooth;
 }
 
-html,
 body{
-    min-height:100%;
-    background:var(--bg);
-    color:var(--text);
+
     font-family:
-        Inter,
         Arial,
         Helvetica,
         sans-serif;
-}
 
-body{
+    background:#101c28;
+
+    color:#eef3f6;
+
+    min-height:100vh;
+
     overflow-x:hidden;
 }
 
 button,
-input{
+input,
+select{
+
     font-family:inherit;
 }
 
 button{
+
     cursor:pointer;
 }
 
-/* =========================================================
-   PERMANENT EDUCATIONAL WARNING
-========================================================= */
+a{
 
-.fake-ribbon{
-    position:fixed;
-    top:0;
-    right:0;
-    z-index:99999;
-
-    background:#e53935;
-    color:#fff;
-
-    font-size:11px;
-    font-weight:900;
-
-    padding:7px 16px;
-
-    letter-spacing:.7px;
-
-    box-shadow:0 3px 15px #0008;
+    text-decoration:none;
+    color:inherit;
 }
 
+
 /* =========================================================
-   INTRO WARNING
+   EDUCATIONAL WARNING
 ========================================================= */
 
-.intro{
+.educational-warning{
+
     position:fixed;
-    inset:0;
-    z-index:9999;
+
+    z-index:99999;
+
+    top:0;
+    left:0;
+    right:0;
+
+    height:34px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #b90000,
+            #ff4b00,
+            #b90000
+        );
+
+    color:#fff;
 
     display:flex;
+
     align-items:center;
+
+    justify-content:center;
+
+    font-size:13px;
+
+    font-weight:900;
+
+    letter-spacing:.4px;
+
+    box-shadow:
+        0 2px 10px
+        rgba(0,0,0,.45);
+
+    overflow:hidden;
+}
+
+.warning-track{
+
+    white-space:nowrap;
+
+    animation:
+        warningMove
+        18s
+        linear
+        infinite;
+}
+
+@keyframes warningMove{
+
+    from{
+        transform:translateX(100%);
+    }
+
+    to{
+        transform:translateX(-100%);
+    }
+}
+
+
+/* =========================================================
+   LOGIN SCREEN
+========================================================= */
+
+#loginScreen{
+
+    position:fixed;
+
+    z-index:9000;
+
+    inset:0;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 30%,
+            #243e50,
+            #08131e 65%
+        );
+
+    display:flex;
+
+    align-items:center;
+
     justify-content:center;
 
     padding:20px;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #253a4b,
-            #07101a 70%
-        );
 }
 
-.intro-card{
-    width:min(680px,100%);
+.login-card{
 
-    background:#142331;
+    width:min(430px,100%);
 
-    border:2px solid var(--yellow);
+    background:#111f2c;
 
-    border-radius:18px;
+    border:
+        1px solid #3a5363;
 
-    padding:40px;
+    border-radius:15px;
+
+    padding:30px;
+
+    box-shadow:
+        0 25px 80px
+        rgba(0,0,0,.65);
 
     text-align:center;
-
-    box-shadow:var(--shadow);
 }
 
-.intro-icon{
-    font-size:65px;
-    margin-bottom:15px;
+.login-logo{
+
+    font-size:38px;
+
+    font-weight:1000;
+
+    color:#a6d800;
+
+    margin-bottom:4px;
 }
 
-.intro-card h1{
-    font-size:34px;
-    margin-bottom:15px;
+.login-subtitle{
+
+    color:#9eafb9;
+
+    font-size:13px;
+
+    margin-bottom:20px;
 }
 
-.intro-card h1 span{
-    color:var(--yellow);
+.login-warning{
+
+    background:
+        rgba(255,66,66,.12);
+
+    border:
+        1px solid #8e3434;
+
+    color:#ff9d9d;
+
+    border-radius:8px;
+
+    padding:12px;
+
+    font-size:12px;
+
+    line-height:1.5;
+
+    margin-bottom:20px;
 }
 
-.intro-card p{
-    color:#c5d0d9;
-    line-height:1.6;
-    margin-bottom:18px;
-}
+.login-card input{
 
-.intro-card ul{
-    text-align:left;
-    margin:20px auto;
-    max-width:520px;
-    color:#b9c5cf;
-    line-height:1.7;
-}
+    width:100%;
 
-.demo-button{
-    background:var(--green2);
-    border:0;
+    padding:14px;
+
+    margin-bottom:11px;
+
+    background:#1a2a38;
+
+    border:
+        1px solid #415665;
+
     border-radius:8px;
 
     color:#fff;
 
-    font-weight:900;
-
-    padding:13px 28px;
-
-    font-size:15px;
+    outline:none;
 }
 
+.login-card input:focus{
+
+    border-color:#8bc52b;
+}
+
+.login-button{
+
+    width:100%;
+
+    padding:14px;
+
+    border:0;
+
+    border-radius:8px;
+
+    background:#62a915;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:900;
+
+    margin-top:4px;
+}
+
+.login-button:hover{
+
+    filter:brightness(1.12);
+}
+
+.anonymous-note{
+
+    margin-top:13px;
+
+    color:#7f919d;
+
+    font-size:11px;
+}
+
+
 /* =========================================================
-   HEADER
+   APP
 ========================================================= */
 
-.header{
-    height:66px;
+#app{
+
+    display:none;
+
+    padding-top:34px;
+}
+
+
+/* =========================================================
+   TOP NAVIGATION
+========================================================= */
+
+.topbar{
+
+    height:68px;
+
+    background:#101c28;
+
+    border-bottom:
+        1px solid #293b48;
 
     display:flex;
+
     align-items:center;
 
-    padding:0 18px;
+    padding:
+        0 18px;
 
     gap:25px;
 
-    background:#101a25;
-
-    border-bottom:1px solid var(--line);
-
     position:sticky;
-    top:0;
+
+    top:34px;
 
     z-index:500;
 }
 
 .logo{
-    display:flex;
-    align-items:center;
 
-    gap:8px;
+    font-size:28px;
 
-    min-width:190px;
-
-    font-size:23px;
     font-weight:1000;
+
+    color:#a8d900;
+
+    white-space:nowrap;
 }
 
-.logo-box{
-    width:36px;
-    height:36px;
+.logo span{
 
-    display:grid;
-    place-items:center;
+    color:#fff;
 
-    background:var(--yellow);
-
-    color:#17212b;
-
-    border-radius:7px;
-
-    font-size:13px;
-}
-
-.logo small{
-    color:var(--yellow);
-    font-size:10px;
+    font-size:11px;
 }
 
 .nav{
-    display:flex;
-    gap:18px;
 
-    overflow-x:auto;
+    display:flex;
+
+    align-items:center;
+
+    gap:22px;
+
+    overflow:auto;
+
+    scrollbar-width:none;
 
     flex:1;
 }
 
-.nav button{
-    border:0;
+.nav::-webkit-scrollbar{
 
-    background:none;
+    display:none;
+}
 
-    color:#adb9c4;
-
-    padding:22px 0;
+.nav-item{
 
     white-space:nowrap;
 
+    color:#b7c2c9;
+
     font-size:14px;
+
+    padding:24px 0;
+
+    position:relative;
+
+    cursor:pointer;
 }
 
-.nav button.active{
-    color:#8ed129;
+.nav-item:hover{
 
-    border-bottom:3px solid var(--green);
+    color:#fff;
 }
 
-.header-actions{
+.nav-item.active{
+
+    color:#a5d600;
+}
+
+.nav-item.active::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:3px;
+
+    background:#a5d600;
+}
+
+.new-badge{
+
+    position:absolute;
+
+    top:5px;
+    right:-13px;
+
+    font-size:8px;
+
+    background:#ff424f;
+
+    color:#fff;
+
+    padding:2px 4px;
+
+    border-radius:3px;
+}
+
+.top-actions{
+
     display:flex;
-    gap:8px;
+
     align-items:center;
+
+    gap:17px;
+
+    white-space:nowrap;
+
+    font-size:13px;
 }
 
-.header-actions button{
-    background:transparent;
-    color:#dce4ea;
+.deposit-button{
 
     border:0;
-
-    padding:9px;
-}
-
-.deposit{
-    background:var(--yellow)!important;
-
-    color:#17212b!important;
-
-    font-weight:900;
 
     border-radius:8px;
 
-    padding:10px 19px!important;
-}
+    padding:
+        10px 20px;
 
-/* =========================================================
-   WARNING TICKER
-========================================================= */
+    background:#ffd400;
 
-.ticker{
-    height:34px;
-
-    background:#080f17;
-
-    border-bottom:1px solid #283a49;
-
-    overflow:hidden;
-
-    display:flex;
-    align-items:center;
-
-    white-space:nowrap;
-}
-
-.ticker-label{
-    background:#7d1e24;
-
-    color:white;
-
-    font-size:11px;
-
-    font-weight:1000;
-
-    padding:9px 15px;
-
-    z-index:2;
-}
-
-.ticker-content{
-    color:#ffd400;
-
-    font-size:12px;
+    color:#111;
 
     font-weight:900;
-
-    padding-left:30px;
-
-    animation:
-        tickerMove
-        25s
-        linear
-        infinite;
 }
 
-@keyframes tickerMove{
+.deposit-button:hover{
 
-    from{
-        transform:translateX(0);
-    }
-
-    to{
-        transform:translateX(-60%);
-    }
+    filter:brightness(1.08);
 }
+
 
 /* =========================================================
    MAIN LAYOUT
 ========================================================= */
 
 .layout{
+
     display:grid;
 
-    grid-template-columns:220px minmax(500px,1fr) 350px;
+    grid-template-columns:
+        240px
+        minmax(500px,1fr)
+        370px;
 
-    min-height:calc(100vh - 100px);
+    min-height:
+        calc(100vh - 102px);
 }
+
 
 /* =========================================================
    SIDEBAR
 ========================================================= */
 
 .sidebar{
-    border-right:1px solid var(--line);
 
-    padding:14px 10px;
+    background:#111e2a;
 
-    background:#101c28;
+    border-right:
+        1px solid #2a3b48;
+
+    padding:10px;
 
     overflow-y:auto;
-}
 
-.sidebar-title{
-    font-weight:900;
+    max-height:
+        calc(100vh - 102px);
 
-    padding:10px 12px 14px;
+    position:sticky;
+
+    top:102px;
 }
 
 .sport{
-    display:block;
 
-    width:100%;
+    display:flex;
 
-    background:none;
+    align-items:center;
 
-    border:0;
+    gap:14px;
 
-    color:#8798a8;
+    padding:
+        11px 10px;
 
-    text-align:left;
+    color:#8294a1;
 
-    padding:11px 12px;
+    border-radius:6px;
 
-    border-radius:7px;
+    cursor:pointer;
 
-    transition:.15s;
+    font-size:13px;
 }
 
-.sport:hover,
+.sport:hover{
+
+    background:#1d2d3a;
+
+    color:#fff;
+}
+
 .sport.active{
-    background:#203442;
 
-    color:white;
+    color:#fff;
+
+    background:#192b39;
+
+    font-weight:700;
 }
+
+.sport-icon{
+
+    width:20px;
+
+    text-align:center;
+
+    font-size:17px;
+}
+
+.sidebar-title{
+
+    color:#647784;
+
+    font-size:10px;
+
+    text-transform:uppercase;
+
+    padding:
+        17px 10px 7px;
+}
+
 
 /* =========================================================
    CONTENT
 ========================================================= */
 
 .content{
+
     min-width:0;
 
-    padding:0 18px 40px;
+    padding:0 13px 50px;
 }
 
-.tabs{
+.content-tabs{
+
     display:flex;
 
-    gap:24px;
+    gap:25px;
 
-    height:57px;
+    height:65px;
 
-    align-items:end;
+    align-items:center;
 
-    border-bottom:1px solid var(--line);
-
-    overflow-x:auto;
+    border-bottom:
+        1px solid #273946;
 }
 
-.tabs button{
-    background:none;
+.content-tab{
 
-    border:0;
+    font-size:14px;
 
-    color:#aab7c2;
+    color:#9eacb6;
 
-    padding:0 0 15px;
+    cursor:pointer;
+
+    height:65px;
+
+    display:flex;
+
+    align-items:center;
+
+    position:relative;
+}
+
+.content-tab.active{
+
+    color:#fff;
 
     font-weight:800;
-
-    white-space:nowrap;
 }
 
-.tabs button.active{
-    color:white;
+.content-tab.active::after{
 
-    border-bottom:3px solid var(--green2);
+    content:"";
+
+    position:absolute;
+
+    bottom:0;
+    left:0;
+    right:0;
+
+    height:3px;
+
+    background:#8dc51e;
 }
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
 
 .controls{
+
     display:flex;
 
     justify-content:space-between;
 
     align-items:center;
 
-    padding:12px 0;
+    padding:
+        13px 8px;
+
+    gap:10px;
 }
 
-.controls button{
-    border:0;
-
-    background:#223543;
-
-    color:#e8edf1;
-
-    border-radius:18px;
-
-    padding:8px 13px;
-
-    margin-right:5px;
-}
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero{
-    min-height:170px;
-
-    border-radius:4px;
-
-    background:
-        linear-gradient(
-            110deg,
-            #b8df00,
-            #eaf524,
-            #66b817
-        );
-
-    color:#16212b;
+.control-left,
+.control-right{
 
     display:flex;
 
-    justify-content:space-between;
+    gap:8px;
+}
+
+.control{
+
+    background:#213343;
+
+    color:#e8edf0;
+
+    border:0;
+
+    border-radius:18px;
+
+    padding:
+        8px 13px;
+
+    font-size:11px;
+}
+
+.control:hover{
+
+    background:#2d4557;
+}
+
+
+/* =========================================================
+   BANNER
+========================================================= */
+
+.banner{
+
+    height:164px;
+
+    border-radius:3px;
 
     overflow:hidden;
 
-    margin-bottom:18px;
+    position:relative;
+
+    background:
+
+        linear-gradient(
+            120deg,
+            #d5ed1d,
+            #77bd1c
+        );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    margin-bottom:14px;
 }
 
-.hero-content{
-    padding:24px 30px;
+.banner::before{
 
-    max-width:76%;
+    content:"";
+
+    position:absolute;
+
+    width:240px;
+    height:240px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.12);
+
+    right:8%;
+
+    top:-90px;
 }
 
-.hero-content h2{
-    font-size:25px;
+.banner-text{
 
-    margin:10px 0;
-}
+    z-index:2;
 
-.hero-content p{
-    font-size:13px;
+    text-align:center;
 
-    max-width:650px;
-
-    line-height:1.5;
-
-    margin-bottom:15px;
-}
-
-.hero-tag{
-    background:#252f36;
-
-    color:#ffd400;
-
-    padding:5px 8px;
-
-    font-size:10px;
+    color:#17265e;
 
     font-weight:1000;
-
-    border-radius:4px;
 }
 
-.hero-icon{
-    min-width:180px;
+.banner-small{
 
-    display:grid;
-
-    place-items:center;
-
-    font-size:80px;
-
-    transform:rotate(-5deg);
+    font-size:17px;
 }
+
+.banner-large{
+
+    font-size:35px;
+
+    background:#18388c;
+
+    color:#fff;
+
+    padding:
+        4px 13px;
+
+    display:inline-block;
+
+    transform:
+        rotate(-2deg);
+
+    margin-top:5px;
+}
+
+.fake-person{
+
+    position:absolute;
+
+    right:13%;
+
+    bottom:-7px;
+
+    font-size:78px;
+
+    z-index:3;
+}
+
 
 /* =========================================================
-   MATCHES
+   MATCH LIST
 ========================================================= */
 
 .matches-header{
+
     display:grid;
 
     grid-template-columns:
         1fr
-        110px
-        110px
-        110px;
+        115px
+        115px
+        115px;
 
-    gap:4px;
+    color:#d9e1e5;
 
-    padding:0 8px 9px;
+    font-size:11px;
 
-    font-size:13px;
-
-    font-weight:900;
+    padding:
+        7px 9px;
 }
 
 .match{
+
+    border-bottom:
+        1px solid #263845;
+
+    padding:
+        13px 9px;
+
     display:grid;
 
     grid-template-columns:
         1fr
-        110px
-        110px
-        110px;
+        115px
+        115px
+        115px;
 
-    gap:4px;
+    gap:7px;
 
-    padding:13px 8px;
+    align-items:center;
+}
 
-    border-bottom:1px solid #253744;
+.match-info{
+
+    min-width:0;
 }
 
 .league{
-    color:#aebbc5;
 
-    font-size:12px;
+    font-size:11px;
+
+    color:#aab5bd;
 
     margin-bottom:7px;
 }
 
-.match-time{
-    float:right;
-
-    color:#c7d0d7;
-
-    font-size:11px;
-}
-
 .teams{
-    font-weight:900;
 
-    line-height:1.45;
+    font-size:14px;
+
+    line-height:1.5;
+
+    font-weight:700;
 }
 
-.market-count{
-    color:#66be18;
+.match-time{
 
     font-size:11px;
 
-    margin-top:7px;
-}
+    color:#bdc8ce;
 
-.odds{
-    align-self:center;
+    text-align:right;
 
-    border:0;
-
-    background:#243745;
-
-    color:white;
-
-    border-radius:19px;
-
-    padding:10px;
-
-    font-weight:1000;
-
-    transition:.12s;
-}
-
-.odds:hover{
-    background:#3a5364;
-
-    transform:translateY(-1px);
-}
-
-/* =========================================================
-   RIGHT PANEL
-========================================================= */
-
-.right{
-    border-left:1px solid var(--line);
-
-    background:#111d29;
-}
-
-.right-tabs{
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        1.3fr
-        1fr;
-
-    border-bottom:1px solid var(--line);
-}
-
-.right-tabs button{
-    border:0;
-
-    background:none;
-
-    color:#aebbc5;
-
-    padding:15px 5px;
-
-    font-weight:900;
-}
-
-.right-tabs button.active{
-    color:white;
-
-    border-bottom:3px solid var(--green);
-}
-
-.betslip{
-    padding:20px;
-}
-
-.betslip h3{
     margin-bottom:5px;
 }
 
-.muted{
-    color:var(--muted);
+.odds{
 
-    font-size:12px;
-}
-
-.selection{
-    margin-top:16px;
-
-    min-height:80px;
-
-    padding:13px;
-
-    border-radius:8px;
-
-    background:#1d2e3c;
-}
-
-.selection.empty{
     display:grid;
 
-    place-items:center;
+    grid-template-columns:
+        1fr 1fr 1fr;
 
-    text-align:center;
-
-    color:#8c9ba8;
-
-    font-size:12px;
+    gap:4px;
 }
 
-.remove{
-    background:none;
+.odds button{
 
     border:0;
 
-    color:#ff7070;
+    background:#233646;
 
-    margin-top:9px;
+    color:#f5f8fa;
+
+    border-radius:17px;
+
+    padding:
+        9px 4px;
+
+    font-size:13px;
+
+    font-weight:900;
+}
+
+.odds button:hover{
+
+    background:#76ad18;
+
+    color:#fff;
+}
+
+.markets{
+
+    color:#7ebd21;
 
     font-size:11px;
+
+    text-align:right;
+
+    margin-top:6px;
 }
 
-.stake{
+
+/* =========================================================
+   BET SLIP
+========================================================= */
+
+.betslip{
+
+    background:#111f2c;
+
+    border-left:
+        1px solid #2b3e4c;
+
+    min-height:
+        calc(100vh - 102px);
+
+    position:sticky;
+
+    top:102px;
+
+    height:
+        calc(100vh - 102px);
+}
+
+.slip-tabs{
+
+    height:50px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    border-bottom:
+        1px solid #334755;
+}
+
+.slip-tab{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    color:#bdc7cc;
+
+}
+
+.slip-tab.active{
+
+    color:#fff;
+
+    border-bottom:
+        3px solid #8ec51e;
+}
+
+.slip-body{
+
+    padding:17px;
+}
+
+.code-title{
+
+    font-size:13px;
+
+    font-weight:700;
+
+    margin-bottom:13px;
+}
+
+.code-input{
+
     width:100%;
 
-    padding:12px;
+    background:#203140;
 
-    margin:12px 0;
+    border:0;
 
-    background:#172633;
-
-    color:white;
-
-    border:1px solid #405364;
+    padding:13px;
 
     border-radius:7px;
+
+    color:#fff;
+
+    text-align:center;
+
+    margin-bottom:10px;
 }
 
-.green-button{
+.load-button{
+
     width:100%;
 
-    padding:12px;
+    padding:10px;
 
-    background:var(--green);
+    background:#60a514;
 
     color:white;
 
@@ -760,480 +1002,651 @@ button{
     font-weight:900;
 }
 
-.safety-box{
-    margin-top:20px;
+.slip-selection{
 
-    padding:13px;
+    margin-top:15px;
 
-    border:1px solid #3c5626;
+    display:none;
+}
 
-    background:#17251b;
+.selection{
+
+    background:#1a2d3c;
+
+    padding:12px;
 
     border-radius:8px;
 
-    font-size:12px;
+    margin-bottom:8px;
 
-    line-height:1.5;
+    position:relative;
 }
 
+.selection-title{
+
+    font-weight:800;
+
+    font-size:13px;
+}
+
+.selection-meta{
+
+    color:#8496a2;
+
+    font-size:10px;
+
+    margin-top:4px;
+}
+
+.selection-odds{
+
+    color:#a9d927;
+
+    font-weight:1000;
+
+    margin-top:6px;
+}
+
+.remove-selection{
+
+    position:absolute;
+
+    right:8px;
+
+    top:7px;
+
+    background:none;
+
+    border:0;
+
+    color:#ff7272;
+
+}
+
+
 /* =========================================================
-   AVIATOR SECTION
+   AVIATOR
 ========================================================= */
 
 .aviator{
+
     margin-top:25px;
 
-    background:
-        radial-gradient(
-            circle at 50% 30%,
-            #203d55,
-            #0a141f 70%
-        );
+    background:#09141f;
 
-    border:1px solid #314b60;
+    border:
+        1px solid #314957;
 
     border-radius:12px;
 
     overflow:hidden;
 
-    box-shadow:var(--shadow);
+    box-shadow:
+        0 15px 45px
+        rgba(0,0,0,.4);
 }
 
 .aviator-header{
-    padding:14px 17px;
 
-    background:#101d2a;
+    height:56px;
 
-    border-bottom:1px solid #2c4353;
+    padding:
+        0 17px;
 
     display:flex;
 
+    align-items:center;
+
     justify-content:space-between;
 
-    align-items:center;
+    background:#111f2c;
+
+    border-bottom:
+        1px solid #2d414e;
 }
 
 .aviator-title{
-    font-weight:1000;
 
-    letter-spacing:.5px;
+    font-size:18px;
+
+    font-weight:1000;
 }
 
 .fake-label{
-    color:#ffd400;
 
-    font-size:10px;
+    border:
+        1px solid #8b791c;
+
+    color:#ffe100;
+
+    border-radius:5px;
+
+    padding:5px 8px;
+
+    font-size:9px;
 
     font-weight:1000;
 }
 
 .flight-area{
-    position:relative;
 
-    height:340px;
+    height:370px;
+
+    position:relative;
 
     overflow:hidden;
 
     background:
+
         radial-gradient(
-            circle at 20% 20%,
-            #21405b 0,
-            transparent 35%
-        ),
-        linear-gradient(
-            180deg,
-            #12283a,
-            #08131e
+            circle at 50% 25%,
+            #274e67,
+            #102a3b 35%,
+            #07131e 78%
         );
 }
 
-/* grid */
-
-.flight-area::before{
-    content:"";
+.stars{
 
     position:absolute;
 
     inset:0;
 
-    opacity:.25;
+    opacity:.45;
 
     background-image:
-        linear-gradient(#52738b 1px,transparent 1px),
-        linear-gradient(90deg,#52738b 1px,transparent 1px);
+        radial-gradient(
+            circle,
+            white 1px,
+            transparent 1px
+        );
 
-    background-size:55px 55px;
+    background-size:
+        55px 55px;
+
+    animation:
+        starMove
+        12s
+        linear
+        infinite;
+}
+
+@keyframes starMove{
+
+    from{
+        background-position:0 0;
+    }
+
+    to{
+        background-position:-300px 300px;
+    }
+}
+
+.flight-area::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:-20%;
+
+    bottom:-55%;
+
+    width:140%;
+
+    height:100%;
+
+    background-image:
+
+        linear-gradient(
+            rgba(85,145,180,.3) 1px,
+            transparent 1px
+        ),
+
+        linear-gradient(
+            90deg,
+            rgba(85,145,180,.3) 1px,
+            transparent 1px
+        );
+
+    background-size:
+        55px 55px;
 
     transform:
-        perspective(300px)
-        rotateX(55deg)
-        scale(1.8);
+        perspective(350px)
+        rotateX(65deg);
 
-    transform-origin:center bottom;
+    opacity:.35;
 }
 
 .multiplier{
+
     position:absolute;
 
+    z-index:20;
+
     left:50%;
-    top:45%;
 
-    transform:translate(-50%,-50%);
+    top:42%;
 
-    font-size:66px;
+    transform:
+        translate(-50%,-50%);
+
+    font-size:67px;
 
     font-weight:1000;
 
-    z-index:10;
-
-    text-shadow:0 4px 20px #000b;
-
     letter-spacing:-3px;
+
+    text-shadow:
+        0 4px 20px #000;
 }
 
 .flight-status{
+
     position:absolute;
 
+    z-index:20;
+
     left:50%;
-    top:65%;
 
-    transform:translateX(-50%);
+    top:59%;
 
-    z-index:10;
+    transform:
+        translateX(-50%);
 
-    color:#8fa2b0;
+    white-space:nowrap;
+
+    color:#a0afb8;
 
     font-size:12px;
+
+    text-align:center;
 }
 
 .plane{
+
     position:absolute;
 
-    left:5%;
+    z-index:30;
 
-    bottom:12%;
+    left:4%;
 
-    z-index:8;
+    bottom:10%;
 
-    font-size:50px;
+    font-size:52px;
 
     filter:
-        drop-shadow(0 10px 20px #0008);
+        drop-shadow(
+            0 7px 15px #000
+        );
 
-    transform:rotate(-12deg);
+    transform:
+        rotate(-12deg);
 }
 
 .flight-line{
+
     position:absolute;
 
-    width:800px;
+    z-index:10;
 
-    height:500px;
+    width:1100px;
 
-    left:-300px;
+    height:700px;
 
-    bottom:-390px;
+    left:-500px;
+
+    bottom:-560px;
 
     border-radius:50%;
 
     border-top:
-        5px solid
-        #ff5960;
+        5px solid #ff4c54;
 
     border-right:
-        5px solid
-        #ff5960;
+        5px solid #ff4c54;
 
-    transform:rotate(-14deg);
+    transform:
+        rotate(-15deg);
 
-    opacity:.7;
-
-    z-index:5;
+    opacity:.75;
 }
 
 .aviator-controls{
-    padding:15px;
 
     display:grid;
 
     grid-template-columns:
-        1fr
-        1fr;
+        1fr 1fr;
 
     gap:12px;
 
-    background:#121f2b;
+    padding:15px;
+
+    background:#111f2b;
 }
 
 .bet-box{
-    background:#1d2e3d;
+
+    padding:13px;
+
+    background:#1a2c3b;
 
     border-radius:9px;
-
-    padding:12px;
 }
 
 .bet-box label{
-    color:#94a4b1;
-
-    font-size:11px;
 
     display:block;
+
+    color:#91a2ad;
+
+    font-size:10px;
+
+    font-weight:900;
 
     margin-bottom:7px;
 }
 
 .bet-input{
+
     width:100%;
 
-    padding:10px;
+    padding:11px;
 
-    background:#101b25;
+    background:#0d1822;
 
-    color:white;
+    border:
+        1px solid #405462;
 
-    border:1px solid #405363;
+    border-radius:7px;
 
-    border-radius:6px;
+    color:#fff;
+
+    outline:none;
+}
+
+.demo-balance{
+
+    color:#91d62d;
+
+    font-size:24px;
+
+    font-weight:1000;
+
+    margin:
+        5px 0 8px;
 }
 
 .aviator-button{
+
     width:100%;
+
+    padding:12px;
 
     border:0;
 
     border-radius:8px;
 
-    margin-top:9px;
+    color:#fff;
 
-    padding:11px;
+    background:#299c43;
 
     font-weight:1000;
+}
 
-    color:white;
+.aviator-button:hover:not(:disabled){
 
-    background:#2b9e45;
+    filter:brightness(1.13);
+
+    transform:
+        translateY(-1px);
 }
 
 .aviator-button.cash{
-    background:#e65c35;
+
+    background:#dd5a35;
 }
 
 .aviator-button:disabled{
+
     opacity:.35;
 
     cursor:not-allowed;
 }
 
+.round-info{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr;
+
+    padding:
+        12px 15px;
+
+    gap:10px;
+
+    background:#0d1924;
+
+    border-top:
+        1px solid #273b49;
+
+    border-bottom:
+        1px solid #273b49;
+
+    color:#91a1ac;
+
+    font-size:10px;
+}
+
+.round-info strong{
+
+    color:#fff;
+
+    margin-left:3px;
+}
+
 .game-log{
-    max-height:110px;
 
-    overflow:auto;
+    max-height:130px;
 
-    border-top:1px solid #263c4c;
+    overflow-y:auto;
 
-    padding:8px 14px;
+    padding:
+        7px 14px;
 
-    font-size:11px;
+    font-size:10px;
 
-    color:#9cacb8;
+    color:#92a4ae;
 }
 
 .game-log div{
-    padding:5px 0;
 
-    border-bottom:1px solid #20313e;
+    padding:
+        6px 0;
+
+    border-bottom:
+        1px solid #1d2e3a;
 }
 
+.crashed{
+
+    color:#ff5259 !important;
+
+    animation:
+        crashFlash
+        .25s
+        infinite alternate;
+}
+
+.won{
+
+    color:#8dd22a !important;
+}
+
+@keyframes crashFlash{
+
+    from{
+
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+
+    }
+
+    to{
+
+        transform:
+            translate(-50%,-50%)
+            scale(1.09);
+
+    }
+}
+
+
 /* =========================================================
-   MODALS
+   NOTIFICATION
+========================================================= */
+
+.notification{
+
+    position:fixed;
+
+    z-index:9998;
+
+    right:22px;
+
+    bottom:22px;
+
+    width:310px;
+
+    padding:15px;
+
+    border-radius:9px;
+
+    background:#1c2e3c;
+
+    border:
+        1px solid #49606d;
+
+    box-shadow:
+        0 10px 35px
+        rgba(0,0,0,.5);
+
+    transform:
+        translateX(400px);
+
+    transition:
+        transform .3s;
+
+    font-size:12px;
+}
+
+.notification.show{
+
+    transform:
+        translateX(0);
+}
+
+
+/* =========================================================
+   MODAL
 ========================================================= */
 
 .modal{
+
     position:fixed;
+
+    z-index:9990;
 
     inset:0;
 
-    z-index:10000;
+    background:
+        rgba(0,0,0,.75);
 
-    background:#000b;
-
-    display:flex;
-
-    justify-content:center;
+    display:none;
 
     align-items:center;
+
+    justify-content:center;
 
     padding:20px;
 }
 
-.modal.hidden{
-    display:none;
+.modal.show{
+
+    display:flex;
 }
 
 .modal-card{
-    width:min(600px,100%);
 
-    background:#172635;
+    width:min(480px,100%);
 
-    border:1px solid #405364;
+    background:#13222f;
 
-    border-radius:14px;
+    border:
+        1px solid #425866;
 
-    padding:30px;
+    border-radius:12px;
 
-    box-shadow:var(--shadow);
+    padding:25px;
 
-    position:relative;
-}
-
-.modal-card.large{
-    width:min(850px,100%);
-}
-
-.close{
-    position:absolute;
-
-    right:15px;
-    top:9px;
-
-    background:none;
-
-    border:0;
-
-    color:#dce3e8;
-
-    font-size:28px;
+    box-shadow:
+        0 25px 80px
+        rgba(0,0,0,.7);
 }
 
 .modal-card h2{
-    margin:12px 0;
+
+    margin-bottom:10px;
 }
 
-.form-group{
-    margin:15px 0;
-}
+.modal-card p{
 
-.form-group label{
-    display:block;
-
-    color:#dce5ea;
-
-    font-size:12px;
-
-    font-weight:800;
-
-    margin-bottom:7px;
-}
-
-.form-group input{
-    width:100%;
-
-    padding:12px;
-
-    background:#101a23;
-
-    color:white;
-
-    border:1px solid #405364;
-
-    border-radius:7px;
-}
-
-.modal-note{
-    color:#94a4b0;
-
-    font-size:11px;
-
-    line-height:1.5;
-
-    margin-top:15px;
-}
-
-.flags{
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        1fr;
-
-    gap:12px;
-}
-
-.flag{
-    background:#1e303f;
-
-    padding:14px;
-
-    border-radius:9px;
-}
-
-.flag strong{
-    color:#ffd43b;
-}
-
-.flag p{
-    color:#afbdc7;
-
-    font-size:12px;
-
-    line-height:1.5;
-
-    margin-top:7px;
-}
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-.toast{
-    position:fixed;
-
-    left:50%;
-    bottom:25px;
-
-    transform:
-        translate(-50%,30px);
-
-    opacity:0;
-
-    pointer-events:none;
-
-    z-index:99999;
-
-    background:#09121b;
-
-    border:1px solid #4c6070;
-
-    padding:13px 19px;
-
-    border-radius:9px;
+    color:#9aabb5;
 
     font-size:13px;
 
-    transition:.25s;
+    line-height:1.6;
+
+    margin-bottom:18px;
 }
 
-.toast.show{
-    opacity:1;
+.close-modal{
 
-    transform:
-        translate(-50%,0);
+    width:100%;
+
+    padding:11px;
+
+    border:0;
+
+    border-radius:7px;
+
+    background:#6ba917;
+
+    color:#fff;
+
+    font-weight:900;
 }
+
 
 /* =========================================================
    RESPONSIVE
 ========================================================= */
 
-@media(max-width:1150px){
+@media(max-width:1100px){
 
     .layout{
+
         grid-template-columns:
-            190px
-            1fr;
+            205px
+            minmax(400px,1fr);
     }
 
-    .right{
+    .betslip{
+
         display:none;
     }
 
@@ -1241,224 +1654,353 @@ button{
 
 @media(max-width:760px){
 
-    .header{
-        flex-wrap:wrap;
+    .topbar{
 
-        height:auto;
+        padding:0 10px;
 
-        padding:8px;
+        gap:12px;
     }
 
-    .nav{
-        order:3;
+    .logo{
 
-        flex-basis:100%;
+        font-size:22px;
     }
 
-    .sidebar{
+    .top-actions{
+
         display:none;
     }
 
     .layout{
-        grid-template-columns:1fr;
+
+        display:block;
     }
 
-    .content{
-        padding:0 10px 30px;
+    .sidebar{
+
+        position:relative;
+
+        top:auto;
+
+        max-height:none;
+
+        display:flex;
+
+        overflow-x:auto;
+
+        border-right:0;
+
+        border-bottom:
+            1px solid #293b48;
+
+        padding:4px;
     }
 
-    .matches-header,
-    .match{
-        grid-template-columns:
-            1fr
-            70px
-            70px
-            70px;
+    .sport{
+
+        min-width:90px;
+
+        justify-content:center;
+
+        flex-direction:column;
+
+        gap:3px;
+
+        font-size:10px;
     }
 
-    .hero-content{
-        max-width:100%;
-    }
+    .sidebar-title{
 
-    .hero-icon{
         display:none;
     }
 
-    .aviator-controls{
+    .content{
+
+        padding:
+            0 7px 30px;
+    }
+
+    .banner{
+
+        height:130px;
+    }
+
+    .banner-large{
+
+        font-size:24px;
+    }
+
+    .fake-person{
+
+        font-size:55px;
+
+        right:3%;
+    }
+
+    .matches-header{
+
+        grid-template-columns:
+            1fr
+            75px
+            75px
+            75px;
+    }
+
+    .match{
+
+        grid-template-columns:
+            1fr
+            75px
+            75px
+            75px;
+    }
+
+    .odds{
+
         grid-template-columns:1fr;
     }
 
-    .flags{
+    .odds button{
+
+        padding:7px 3px;
+    }
+
+    .aviator-controls{
+
+        grid-template-columns:1fr;
+    }
+
+    .round-info{
+
         grid-template-columns:1fr;
     }
 
     .multiplier{
+
         font-size:48px;
     }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+button:focus,
+input:focus{
+
+    outline:
+        2px solid #9ed42c;
+
+    outline-offset:2px;
 }
 
 </style>
+
 </head>
+
 
 <body>
 
-<!-- =====================================================
-     PERMANENT DEMO LABEL
-===================================================== -->
-
-<div class="fake-ribbon">
-    ⚠️ FAKE EDUCATIONAL DEMO — NO REAL MONEY
-</div>
 
 <!-- =====================================================
-     INTRO
+     WARNING BAR
 ===================================================== -->
 
-<div class="intro" id="intro">
+<div class="educational-warning">
 
-    <div class="intro-card">
+    <div class="warning-track">
 
-        <div class="intro-icon">
-            ⚠️🤣
-        </div>
-
-        <h1>
-            Hey Careful Bro,
-            <span>This Is Fake!</span>
-        </h1>
-
-        <p>
-            This is a deliberately simulated sportsbook designed
-            for public scam-awareness education.
-        </p>
-
-        <ul>
-            <li>There is no real betting.</li>
-            <li>There are no real deposits or withdrawals.</li>
-            <li>All balances are fictional demo credits.</li>
-            <li>Do not enter real passwords, OTPs, PINs or card details.</li>
-            <li>The login is processed only inside this browser.</li>
-        </ul>
-
-        <button
-            class="demo-button"
-            id="enterDemo"
-        >
-            ENTER EDUCATIONAL DEMO
-        </button>
+        ⚠️ EDUCATIONAL SIMULATION — HEY CAREFUL BRO 😂😟
+        THIS IS FAKE — NO REAL MONEY — NO REAL BETTING —
+        VERIFY WEBSITES BEFORE SENDING MONEY ⚠️
 
     </div>
 
 </div>
 
+
 <!-- =====================================================
-     HEADER
+     LOGIN
 ===================================================== -->
 
-<header class="header">
+<section id="loginScreen">
+
+    <div class="login-card">
+
+        <div class="login-logo">
+            BetDemo!
+        </div>
+
+        <div class="login-subtitle">
+            Educational Betting Scam Simulator
+        </div>
+
+        <div class="login-warning">
+
+            🚨 <strong>PUBLIC AWARENESS DEMO</strong><br>
+
+            This is not a real betting service.
+            Do not enter your real password, payment
+            information or financial details.
+
+        </div>
+
+        <input
+            id="loginEmail"
+            type="text"
+            autocomplete="off"
+            placeholder="Demo email"
+        >
+
+        <input
+            id="loginUsername"
+            type="text"
+            autocomplete="off"
+            placeholder="Demo username"
+        >
+
+        <button
+            class="login-button"
+            id="loginButton"
+        >
+            ENTER DEMO
+        </button>
+
+        <div class="anonymous-note">
+
+            🔒 Nothing entered here is uploaded.
+            This demonstration uses browser memory only.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     APPLICATION
+===================================================== -->
+
+<div id="app">
+
+
+<!-- =====================================================
+     TOP BAR
+===================================================== -->
+
+<header class="topbar">
 
     <div class="logo">
 
-        <div class="logo-box">
-            OL
-        </div>
-
-        <div>
-            OddsLab
-            <small>.demo</small>
-        </div>
+        BetDemo<span>.com</span>
 
     </div>
 
     <nav class="nav">
 
-        <button class="active">
+        <div class="nav-item active">
             Home
-        </button>
+        </div>
 
-        <button>
-            Live <b id="liveCount">136</b>
-        </button>
+        <div class="nav-item">
+            Live (136)
+        </div>
 
-        <button>
+        <div class="nav-item">
             Jackpots
-        </button>
+        </div>
 
-        <button>
+        <div class="nav-item">
             Shikisha Bet
-        </button>
+        </div>
 
-        <button>
+        <div class="nav-item">
             Aviator
-        </button>
+        </div>
 
-        <button>
+        <div class="nav-item">
+            Ligi Bigi
+
+            <span class="new-badge">
+                New
+            </span>
+
+        </div>
+
+        <div class="nav-item">
             Casino
-        </button>
 
-        <button>
-            Promotions
-        </button>
+            <span class="new-badge">
+                New
+            </span>
 
-        <button>
+        </div>
+
+        <div class="nav-item">
+            Promotions (15)
+        </div>
+
+        <div class="nav-item">
             Virtuals
-        </button>
 
-        <button>
+            <span class="new-badge">
+                New
+            </span>
+
+        </div>
+
+        <div class="nav-item">
+            Betika Fasta
+
+            <span class="new-badge">
+                New
+            </span>
+
+        </div>
+
+        <div class="nav-item">
             Crash Games
-        </button>
 
-        <button>
+            <span class="new-badge">
+                New
+            </span>
+
+        </div>
+
+        <div class="nav-item">
             Live Score
-        </button>
+        </div>
+
+        <div class="nav-item">
+            App
+        </div>
 
     </nav>
 
-    <div class="header-actions">
+    <div class="top-actions">
 
-        <button>
-            🔔 Notifications
-        </button>
+        <span>🔔 Notifications</span>
 
-        <button id="profileButton">
-            ♙ Profile
-        </button>
+        <span>☰ My Bets</span>
 
-        <button class="deposit" id="depositButton">
+        <span>♙ Profile</span>
+
+        <button
+            class="deposit-button"
+            id="depositButton"
+        >
             Deposit
         </button>
+
+        ☀️
 
     </div>
 
 </header>
 
-<!-- =====================================================
-     TICKER
-===================================================== -->
-
-<div class="ticker">
-
-    <div class="ticker-label">
-        PUBLIC AWARENESS
-    </div>
-
-    <div class="ticker-content">
-
-        HEY CAREFUL BRO, THIS IS FAKE 🤣😟
-        •
-        NEVER TRUST A RANDOM BETTING LINK
-        •
-        NEVER SHARE YOUR OTP
-        •
-        NEVER GIVE A SITE YOUR MOBILE MONEY PIN
-        •
-        VERIFY THE DOMAIN
-        •
-        HEY CAREFUL BRO, THIS IS FAKE 🤣😟
-
-    </div>
-
-</div>
 
 <!-- =====================================================
      MAIN LAYOUT
@@ -1466,138 +2008,244 @@ button{
 
 <div class="layout">
 
+
 <!-- =====================================================
      SIDEBAR
 ===================================================== -->
 
 <aside class="sidebar">
 
-    <div class="sidebar-title">
-        Sports
+    <div
+        class="sport active"
+        data-sport="Soccer"
+    >
+
+        <span class="sport-icon">⚽</span>
+        Soccer
+
     </div>
 
-    <button class="sport active">⚽ Soccer</button>
-    <button class="sport">🏓 Table Tennis</button>
-    <button class="sport">🥊 Boxing</button>
-    <button class="sport">⚾ Baseball</button>
-    <button class="sport">🏒 Ice Hockey</button>
-    <button class="sport">🏈 American Football</button>
-    <button class="sport">🏉 Rugby</button>
-    <button class="sport">🤾 Handball</button>
-    <button class="sport">🎮 eSoccer</button>
-    <button class="sport">🏀 Basketball</button>
-    <button class="sport">🏏 Cricket</button>
-    <button class="sport">🥅 Futsal</button>
-    <button class="sport">🎯 Darts</button>
-    <button class="sport">🏐 Volleyball</button>
-    <button class="sport">🎾 Tennis</button>
-    <button class="sport">🏖️ Beach Volleyball</button>
-    <button class="sport">💻 eSports</button>
+    <div class="sport">
+        <span class="sport-icon">🏓</span>
+        Table Tennis
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🥊</span>
+        Boxing
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">⚾</span>
+        Baseball
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🏒</span>
+        Ice Hockey
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🏈</span>
+        American Football
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🏉</span>
+        Rugby
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🤾</span>
+        Handball
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">⚽</span>
+        eSoccer
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🏀</span>
+        Basketball
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🏏</span>
+        Cricket
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🥅</span>
+        Futsal
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🎯</span>
+        Darts
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🏉</span>
+        Aussie Rules
+    </div>
+
+    <div class="sidebar-title">
+        Esport Data
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🎮</span>
+        Counter-Strike
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🎮</span>
+        League of Legends
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🏐</span>
+        Volleyball
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🎾</span>
+        Tennis
+    </div>
+
+    <div class="sport">
+        <span class="sport-icon">🏖️</span>
+        Beach Volleyball
+    </div>
 
 </aside>
 
+
 <!-- =====================================================
-     CENTRAL CONTENT
+     CENTER
 ===================================================== -->
 
 <main class="content">
 
-    <div class="tabs">
 
-        <button class="active">
+    <!-- TABS -->
+
+    <div class="content-tabs">
+
+        <div class="content-tab active">
             Highlights
-        </button>
+        </div>
 
-        <button>
+        <div class="content-tab">
             Upcoming
-        </button>
+        </div>
 
-        <button>
+        <div class="content-tab">
             Countries
-        </button>
+        </div>
 
-        <button>
+        <div class="content-tab">
             Zoom Soccer
-        </button>
+        </div>
 
-        <button>
+        <div class="content-tab">
             Jackpots
-        </button>
+        </div>
 
-        <button>
+        <div class="content-tab">
+            <span class="new-badge"
+                  style="position:static;margin-right:5px">
+                New
+            </span>
+
             Turbo
-        </button>
+        </div>
 
     </div>
+
+
+    <!-- CONTROLS -->
 
     <div class="controls">
 
-        <div>
-            <button>
+        <div class="control-left">
+
+            <button
+                class="control"
+                id="filterButton"
+            >
                 ⚙ Filters ▾
             </button>
+
         </div>
 
-        <div>
-            <button>Today ▾</button>
-            <button>Highlights ▾</button>
-            <button>1 × 2 ▾</button>
+        <div class="control-right">
+
+            <button class="control">
+                Today ▾
+            </button>
+
+            <button class="control">
+                Highlights ▾
+            </button>
+
+            <button class="control">
+                1×2 ▾
+            </button>
+
         </div>
 
     </div>
 
-    <!-- HERO -->
 
-    <section class="hero">
+    <!-- BANNER -->
 
-        <div class="hero-content">
+    <div class="banner">
 
-            <span class="hero-tag">
-                TRAINING SIMULATION
-            </span>
+        <div class="banner-text">
 
-            <h2>
-                Would you trust this page with your money?
-            </h2>
+            <div class="banner-small">
+                UNACHEZA KWA APP?
+                UNAWEZA
+            </div>
 
-            <p>
-                A professional-looking interface can be created
-                with ordinary web technologies. Visual appearance
-                alone does not prove that a betting operator is legitimate.
-            </p>
-
-            <button
-                class="demo-button"
-                id="learnButton"
-            >
-                🔎 Learn the red flags
-            </button>
+            <div class="banner-large">
+                PUNCHIKA PAP!
+            </div>
 
         </div>
 
-        <div class="hero-icon">
-            💳
+        <div class="fake-person">
+            🧑🏿‍💻
         </div>
 
-    </section>
+    </div>
 
-    <!-- MATCHES -->
+
+    <!-- MATCH HEADER -->
 
     <div class="matches-header">
 
-        <span>Teams</span>
+        <div>Teams</div>
 
-        <span>1</span>
-        <span>X</span>
-        <span>2</span>
+        <div>1</div>
+
+        <div>X</div>
+
+        <div>2</div>
 
     </div>
 
+
+    <!-- MATCHES -->
+
     <div id="matches"></div>
 
+
     <!-- =================================================
-         FAKE AVIATOR
-    ================================================== -->
+         AVIATOR
+    ================================================= -->
 
     <section class="aviator">
 
@@ -1608,12 +2256,15 @@ button{
             </div>
 
             <div class="fake-label">
-                SIMULATION ONLY
+                FAKE SIMULATION
             </div>
 
         </div>
 
+
         <div class="flight-area">
+
+            <div class="stars"></div>
 
             <div
                 class="flight-line"
@@ -1638,19 +2289,18 @@ button{
                 class="flight-status"
                 id="flightStatus"
             >
-                WAITING FOR DEMO ROUND
+                PLACE A DEMO BET TO START
             </div>
 
         </div>
 
-        <div class="aviator-controls">
 
-            <!-- PLAYER 1 -->
+        <div class="aviator-controls">
 
             <div class="bet-box">
 
                 <label>
-                    DEMO STAKE — PLAYER 1
+                    DEMO STAKE
                 </label>
 
                 <input
@@ -1666,30 +2316,25 @@ button{
                     class="aviator-button"
                     id="startRound"
                 >
-                    PLACE DEMO BET
+                    ✈️ PLACE DEMO BET
                 </button>
 
             </div>
 
-            <!-- CASH OUT -->
 
             <div class="bet-box">
 
                 <label>
-                    DEMO VIRTUAL BALANCE
+                    DEMO BALANCE
                 </label>
 
-                <div
-                    style="
-                    font-size:25px;
-                    font-weight:1000;
-                    margin-bottom:8px;
-                    "
-                >
+                <div class="demo-balance">
+
                     KSh
                     <span id="balance">
-                        10,000
+                        10,000.00
                     </span>
+
                 </div>
 
                 <button
@@ -1697,91 +2342,128 @@ button{
                     id="cashOut"
                     disabled
                 >
-                    CASH OUT
+                    💰 CASH OUT
                 </button>
 
             </div>
 
         </div>
 
+
+        <div class="round-info">
+
+            <div>
+                Last crash:
+                <strong id="lastCrash">
+                    —
+                </strong>
+            </div>
+
+            <div>
+                Current round:
+                <strong id="roundNumber">
+                    0
+                </strong>
+            </div>
+
+            <div>
+                Status:
+                <strong id="gameState">
+                    WAITING
+                </strong>
+            </div>
+
+        </div>
+
+
         <div
             class="game-log"
             id="gameLog"
         >
+
             <div>
-                Demo history will appear here.
+                Waiting for the first simulated round...
             </div>
+
         </div>
 
     </section>
 
 </main>
 
+
 <!-- =====================================================
-     RIGHT BETSLIP
+     BET SLIP
 ===================================================== -->
 
-<aside class="right">
+<aside class="betslip">
 
-    <div class="right-tabs">
+    <div class="slip-tabs">
 
-        <button class="active">
-            Normal (<span id="selectionCount">0</span>)
-        </button>
+        <div class="slip-tab active">
+            Normal (0)
+        </div>
 
-        <button>
+        <div class="slip-tab">
             Shikisha Bet (0)
-        </button>
+        </div>
 
-        <button>
+        <div class="slip-tab">
             Virtuals (0)
-        </button>
+        </div>
 
     </div>
 
-    <div class="betslip">
 
-        <h3>
-            Demo Betslip
-        </h3>
+    <div class="slip-body">
 
-        <div class="muted">
-            This is not connected to real betting.
-        </div>
+        <div class="code-title">
 
-        <div
-            class="selection empty"
-            id="selection"
-        >
-            Click an odds button to add a simulated selection.
+            Do you have a shared
+            betslip code?
+            Enter it here.
+
         </div>
 
         <input
-            class="stake"
-            id="stake"
-            type="number"
-            min="1"
-            value="100"
-            placeholder="Demo stake"
+            class="code-input"
+            id="sharedCode"
+            placeholder="e.g. VBmSU"
         >
 
         <button
-            class="green-button"
-            id="placeBet"
+            class="load-button"
+            id="loadCode"
         >
-            PLACE SIMULATED BET
+            Load Betslip
         </button>
 
-        <div class="safety-box">
 
-            <strong>
-                🛡️ Safety check
-            </strong>
+        <div
+            class="slip-selection"
+            id="slipSelection"
+        >
 
-            <p>
-                This simulation cannot process money,
-                withdrawals, deposits or real wagers.
-            </p>
+            <div id="selectionList"></div>
+
+            <div
+                style="
+                    margin-top:15px;
+                    display:flex;
+                    justify-content:space-between;
+                    font-size:12px;
+                "
+            >
+
+                <span>
+                    Combined odds
+                </span>
+
+                <strong id="combinedOdds">
+                    1.00
+                </strong>
+
+            </div>
 
         </div>
 
@@ -1791,224 +2473,259 @@ button{
 
 </div>
 
+</div>
+
+
 <!-- =====================================================
-     LOGIN MODAL
+     NOTIFICATION
 ===================================================== -->
 
 <div
-    class="modal hidden"
-    id="loginModal"
+    class="notification"
+    id="notification"
+>
+    Notification
+</div>
+
+
+<!-- =====================================================
+     MODAL
+===================================================== -->
+
+<div
+    class="modal"
+    id="modal"
 >
 
     <div class="modal-card">
 
-        <button
-            class="close"
-            data-close="loginModal"
-        >
-            ×
-        </button>
-
-        <h2>
-            Anonymous Demo Login
+        <h2 id="modalTitle">
+            Educational Simulation
         </h2>
 
-        <p class="muted">
-            Use fictional information only.
-            This form does not send data to a server.
-        </p>
+        <p id="modalText">
 
-        <form id="loginForm">
-
-            <div class="form-group">
-
-                <label>
-                    Demo email
-                </label>
-
-                <input
-                    type="email"
-                    id="demoEmail"
-                    placeholder="demo@example.invalid"
-                    required
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label>
-                    Demo username
-                </label>
-
-                <input
-                    type="text"
-                    id="demoUsername"
-                    placeholder="DemoPlayer"
-                    minlength="2"
-                    maxlength="30"
-                    required
-                >
-
-            </div>
-
-            <button
-                class="green-button"
-                type="submit"
-            >
-                ENTER DEMO
-            </button>
-
-        </form>
-
-        <p class="modal-note">
-
-            ⚠️ Never enter your real password, OTP,
-            mobile-money PIN, card number or identity
-            information into an unfamiliar betting website.
+            This is a fictional interface
+            created for public awareness.
 
         </p>
 
-        <p
-            id="loginResult"
-            style="
-            color:#8bd52b;
-            margin-top:15px;
-            font-size:12px;
-            "
-        ></p>
+        <button
+            class="close-modal"
+            id="closeModal"
+        >
+            CLOSE
+        </button>
 
     </div>
 
 </div>
 
-<!-- =====================================================
-     SCAM CHECKLIST MODAL
-===================================================== -->
-
-<div
-    class="modal hidden"
-    id="learnModal"
->
-
-    <div class="modal-card large">
-
-        <button
-            class="close"
-            data-close="learnModal"
-        >
-            ×
-        </button>
-
-        <h2>
-            🔎 Scam-awareness checklist
-        </h2>
-
-        <div class="flags">
-
-            <div class="flag">
-
-                <strong>
-                    1. Check the domain
-                </strong>
-
-                <p>
-                    Look carefully at the spelling of the domain.
-                    Don't assume a familiar logo means you're
-                    visiting the legitimate company.
-                </p>
-
-            </div>
-
-            <div class="flag">
-
-                <strong>
-                    2. Beware of urgency
-                </strong>
-
-                <p>
-                    "Deposit now", "guaranteed win" and
-                    "account expires today" messages can be
-                    designed to prevent careful verification.
-                </p>
-
-            </div>
-
-            <div class="flag">
-
-                <strong>
-                    3. Never disclose PINs
-                </strong>
-
-                <p>
-                    A suspicious site asking for a mobile-money
-                    PIN, OTP or banking credential should immediately
-                    stop the transaction.
-                </p>
-
-            </div>
-
-            <div class="flag">
-
-                <strong>
-                    4. Don't trust screenshots
-                </strong>
-
-                <p>
-                    Balances, winning notifications,
-                    testimonials and transaction histories
-                    can all be fabricated with JavaScript.
-                </p>
-
-            </div>
-
-            <div class="flag">
-
-                <strong>
-                    5. Verify independently
-                </strong>
-
-                <p>
-                    Find the operator independently rather than
-                    relying on links supplied by an advert,
-                    WhatsApp message or social-media account.
-                </p>
-
-            </div>
-
-            <div class="flag">
-
-                <strong>
-                    6. A balance isn't proof
-                </strong>
-
-                <p>
-                    A number displayed on a webpage is not evidence
-                    that money actually exists in a regulated
-                    financial account.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- =====================================================
-     TOAST
-===================================================== -->
-
-<div
-    class="toast"
-    id="toast"
-></div>
 
 <script>
 
 /* =========================================================
-   FAKE SPORTS DATA
+   LOGIN
+========================================================= */
+
+const loginScreen =
+    document.getElementById(
+        "loginScreen"
+    );
+
+const app =
+    document.getElementById(
+        "app"
+    );
+
+const loginButton =
+    document.getElementById(
+        "loginButton"
+    );
+
+
+loginButton.addEventListener(
+    "click",
+    () => {
+
+        const email =
+            document
+            .getElementById(
+                "loginEmail"
+            )
+            .value
+            .trim();
+
+        const username =
+            document
+            .getElementById(
+                "loginUsername"
+            )
+            .value
+            .trim();
+
+
+        if(
+            !email ||
+            !username
+        ){
+
+            alert(
+                "Enter a demo email and username."
+            );
+
+            return;
+
+        }
+
+
+        /*
+           IMPORTANT:
+
+           Nothing is transmitted anywhere.
+
+           We only retain a generic
+           display name in memory.
+        */
+
+        sessionStorage.setItem(
+            "demoUser",
+            username
+        );
+
+
+        loginScreen.style.display =
+            "none";
+
+        app.style.display =
+            "block";
+
+
+        notify(
+            "Welcome to the educational simulation."
+        );
+
+    }
+);
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+const notification =
+    document.getElementById(
+        "notification"
+    );
+
+let notificationTimer;
+
+
+function notify(message){
+
+    notification.textContent =
+        message;
+
+    notification.classList.add(
+        "show"
+    );
+
+    clearTimeout(
+        notificationTimer
+    );
+
+    notificationTimer =
+        setTimeout(
+            () => {
+
+                notification.classList.remove(
+                    "show"
+                );
+
+            },
+            3500
+        );
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+const modal =
+    document.getElementById(
+        "modal"
+    );
+
+const modalTitle =
+    document.getElementById(
+        "modalTitle"
+    );
+
+const modalText =
+    document.getElementById(
+        "modalText"
+    );
+
+
+function showModal(
+    title,
+    text
+){
+
+    modalTitle.textContent =
+        title;
+
+    modalText.textContent =
+        text;
+
+    modal.classList.add(
+        "show"
+    );
+
+}
+
+
+document
+.getElementById(
+    "closeModal"
+)
+.addEventListener(
+    "click",
+    () => {
+
+        modal.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   DEPOSIT
+========================================================= */
+
+document
+.getElementById(
+    "depositButton"
+)
+.addEventListener(
+    "click",
+    () => {
+
+        showModal(
+            "⚠️ FAKE DEPOSIT",
+            "This button is intentionally simulated. This educational website does not accept money, connect to a payment processor, or process deposits."
+        );
+
+    }
+);
+
+
+/* =========================================================
+   MATCH DATA
 ========================================================= */
 
 const matches = [
@@ -2017,681 +2734,1399 @@ const matches = [
         league:"England • Premier League",
         home:"Leeds",
         away:"Crystal Palace",
-        odds:["1.77","4.00","4.60"],
         time:"20/09, 16:00",
-        markets:"+84 Markets"
+        odds:["1.77","4.00","4.60"]
     },
 
     {
         league:"England • Premier League",
         home:"Bournemouth",
         away:"Liverpool",
-        odds:["3.10","3.85","2.23"],
         time:"20/09, 16:00",
-        markets:"+84 Markets"
+        odds:["3.10","3.85","2.23"]
     },
 
     {
         league:"England • Premier League",
         home:"Man City",
         away:"Sunderland",
-        odds:["1.35","5.60","8.60"],
         time:"20/09, 16:00",
-        markets:"+83 Markets"
+        odds:["1.35","5.60","8.60"]
     },
 
     {
         league:"England • Premier League",
         home:"Fulham",
         away:"Man Utd",
-        odds:["3.40","3.80","2.11"],
         time:"20/09, 18:30",
-        markets:"+84 Markets"
+        odds:["3.40","3.80","2.11"]
     },
 
     {
         league:"Spain • La Liga",
-        home:"Real Sociedad",
-        away:"Sevilla",
-        odds:["2.05","3.25","3.70"],
-        time:"20/09, 20:00",
-        markets:"+79 Markets"
+        home:"Real Madrid",
+        away:"Valencia",
+        time:"20/09, 21:00",
+        odds:["1.31","5.80","8.20"]
     },
 
     {
         league:"Italy • Serie A",
-        home:"Roma",
+        home:"Inter Milan",
         away:"Torino",
-        odds:["1.92","3.50","4.10"],
-        time:"20/09, 21:45",
-        markets:"+81 Markets"
+        time:"20/09, 20:45",
+        odds:["1.48","4.40","6.70"]
+    },
+
+    {
+        league:"Germany • Bundesliga",
+        home:"Bayern Munich",
+        away:"Mainz",
+        time:"20/09, 17:30",
+        odds:["1.25","6.50","10.0"]
+    },
+
+    {
+        league:"France • Ligue 1",
+        home:"PSG",
+        away:"Lyon",
+        time:"20/09, 21:00",
+        odds:["1.42","5.00","6.30"]
     }
 
 ];
 
-/* =========================================================
-   BASIC HELPERS
-========================================================= */
 
-const $ = selector =>
-    document.querySelector(selector);
-
-const $$ = selector =>
-    [...document.querySelectorAll(selector)];
-
-
-/* =========================================================
-   TOAST
-========================================================= */
-
-let toastTimer;
-
-function toast(message){
-
-    const element = $("#toast");
-
-    element.textContent = message;
-
-    element.classList.add("show");
-
-    clearTimeout(toastTimer);
-
-    toastTimer = setTimeout(() => {
-
-        element.classList.remove("show");
-
-    },2800);
-
-}
-
-
-/* =========================================================
-   INTRO
-========================================================= */
-
-$("#enterDemo").onclick = () => {
-
-    $("#intro").style.display = "none";
-
-    toast(
-        "Educational simulation loaded. No real money is involved."
+const matchesContainer =
+    document.getElementById(
+        "matches"
     );
 
-};
-
 
 /* =========================================================
-   RENDER SPORTS
+   RENDER MATCHES
 ========================================================= */
 
 function renderMatches(){
 
-    $("#matches").innerHTML = matches.map(
+    matchesContainer.innerHTML =
+        "";
+
+
+    matches.forEach(
         (match,index) => {
 
-            return `
+            const row =
+                document.createElement(
+                    "div"
+                );
 
-            <article class="match">
+            row.className =
+                "match";
 
-                <div>
+
+            row.innerHTML = `
+
+                <div class="match-info">
 
                     <div class="league">
-
                         ⚽ ${match.league}
-
-                        <span class="match-time">
-                            ${match.time}
-                        </span>
-
                     </div>
 
                     <div class="teams">
 
-                        ${match.home}
-                        <br>
+                        ${match.home}<br>
                         ${match.away}
 
                     </div>
 
-                    <div class="market-count">
+                    <div class="markets">
+                        +${84-index%3} Markets
+                    </div>
 
-                        ${match.markets}
+                </div>
+
+
+                <div>
+
+                    <div class="match-time">
+                        ${match.time}
+                    </div>
+
+                    <div class="odds">
+
+                        <button
+                            data-match="${index}"
+                            data-outcome="1"
+                            data-odd="${match.odds[0]}"
+                        >
+                            ${match.odds[0]}
+                        </button>
 
                     </div>
 
                 </div>
 
-                ${match.odds.map(
-                    (odd,outcome) => `
 
-                    <button
-                        class="odds"
-                        data-match="${index}"
-                        data-outcome="${outcome}"
-                    >
-                        ${odd}
-                    </button>
+                <div>
 
-                    `
-                ).join("")}
+                    <div class="match-time">
+                        &nbsp;
+                    </div>
 
-            </article>
+                    <div class="odds">
+
+                        <button
+                            data-match="${index}"
+                            data-outcome="X"
+                            data-odd="${match.odds[1]}"
+                        >
+                            ${match.odds[1]}
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="match-time">
+                        &nbsp;
+                    </div>
+
+                    <div class="odds">
+
+                        <button
+                            data-match="${index}"
+                            data-outcome="2"
+                            data-odd="${match.odds[2]}"
+                        >
+                            ${match.odds[2]}
+                        </button>
+
+                    </div>
+
+                </div>
 
             `;
 
+
+            matchesContainer.appendChild(
+                row
+            );
+
         }
-    ).join("");
+    );
+
+
+    attachOdds();
 
 }
+
 
 renderMatches();
 
 
 /* =========================================================
-   SPORTS BETSLIP
+   BET SLIP
 ========================================================= */
 
-let selectedBet = null;
+let selections = [];
 
-document.addEventListener(
+
+const selectionList =
+    document.getElementById(
+        "selectionList"
+    );
+
+const slipSelection =
+    document.getElementById(
+        "slipSelection"
+    );
+
+const combinedOdds =
+    document.getElementById(
+        "combinedOdds"
+    );
+
+
+function attachOdds(){
+
+    document
+    .querySelectorAll(
+        ".odds button"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const index =
+                        Number(
+                            button.dataset.match
+                        );
+
+                    const outcome =
+                        button.dataset.outcome;
+
+                    const odd =
+                        Number(
+                            button.dataset.odd
+                        );
+
+                    const match =
+                        matches[index];
+
+
+                    /*
+                       Remove previous
+                       selection from same match.
+                    */
+
+                    selections =
+                        selections.filter(
+                            item =>
+                                item.index !==
+                                index
+                        );
+
+
+                    selections.push({
+
+                        index,
+
+                        home:
+                            match.home,
+
+                        away:
+                            match.away,
+
+                        outcome,
+
+                        odd
+
+                    });
+
+
+                    renderSlip();
+
+
+                    notify(
+                        `${match.home} vs ${match.away} added to demo betslip.`
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+function renderSlip(){
+
+    selectionList.innerHTML =
+        "";
+
+
+    if(
+        selections.length === 0
+    ){
+
+        slipSelection.style.display =
+            "none";
+
+        combinedOdds.textContent =
+            "1.00";
+
+        return;
+
+    }
+
+
+    slipSelection.style.display =
+        "block";
+
+
+    let total = 1;
+
+
+    selections.forEach(
+        (selection,position) => {
+
+            total *=
+                selection.odd;
+
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "selection";
+
+
+            item.innerHTML = `
+
+                <button
+                    class="remove-selection"
+                    data-remove="${position}"
+                >
+                    ×
+                </button>
+
+                <div class="selection-title">
+
+                    ${selection.home}
+                    vs
+                    ${selection.away}
+
+                </div>
+
+                <div class="selection-meta">
+
+                    Outcome:
+                    ${selection.outcome}
+
+                </div>
+
+                <div class="selection-odds">
+
+                    Demo odds:
+                    ${selection.odd.toFixed(2)}
+
+                </div>
+
+            `;
+
+
+            selectionList.appendChild(
+                item
+            );
+
+        }
+    );
+
+
+    combinedOdds.textContent =
+        total.toFixed(2);
+
+
+    document
+    .querySelectorAll(
+        "[data-remove]"
+    )
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const position =
+                        Number(
+                            button.dataset.remove
+                        );
+
+                    selections.splice(
+                        position,
+                        1
+                    );
+
+                    renderSlip();
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   BETSLIP CODE
+========================================================= */
+
+document
+.getElementById(
+    "loadCode"
+)
+.addEventListener(
     "click",
-    event => {
+    () => {
 
-        const button =
-            event.target.closest(".odds");
+        const code =
+            document
+            .getElementById(
+                "sharedCode"
+            )
+            .value
+            .trim();
 
-        if(!button)
+
+        if(!code){
+
+            notify(
+                "Enter a fictional demo betslip code."
+            );
+
             return;
 
-        const match =
-            matches[
-                Number(button.dataset.match)
-            ];
+        }
 
-        const outcome =
-            Number(button.dataset.outcome);
 
-        selectedBet = {
+        notify(
+            `Demo code "${code}" loaded locally.`
+        );
 
-            home:match.home,
 
-            away:match.away,
+        /*
+           Generate two fictional selections.
+        */
 
-            odds:match.odds[outcome],
+        selections = [
 
-            outcome:[
-                "Home win",
-                "Draw",
-                "Away win"
-            ][outcome]
+            {
+                index:0,
+                home:"Leeds",
+                away:"Crystal Palace",
+                outcome:"1",
+                odd:1.77
+            },
 
-        };
+            {
+                index:1,
+                home:"Bournemouth",
+                away:"Liverpool",
+                outcome:"2",
+                odd:2.23
+            }
 
-        updateSelection();
+        ];
 
-        toast(
-            "Added to simulated betslip."
+
+        renderSlip();
+
+    }
+);
+
+
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
+document
+.getElementById(
+    "filterButton"
+)
+.addEventListener(
+    "click",
+    () => {
+
+        notify(
+            "Filters are simulated for this demonstration."
         );
 
     }
 );
 
 
-function updateSelection(){
+/* =========================================================
+   SPORTS
+========================================================= */
 
-    const box =
-        $("#selection");
+document
+.querySelectorAll(
+    ".sport"
+)
+.forEach(
+    sport => {
 
-    if(!selectedBet){
+        sport.addEventListener(
+            "click",
+            () => {
 
-        box.className =
-            "selection empty";
+                document
+                .querySelectorAll(
+                    ".sport"
+                )
+                .forEach(
+                    item =>
+                        item.classList.remove(
+                            "active"
+                        )
+                );
 
-        box.textContent =
-            "Click an odds button to add a simulated selection.";
 
-        $("#selectionCount").textContent =
-            "0";
+                sport.classList.add(
+                    "active"
+                );
 
-        return;
+
+                const name =
+                    sport.textContent.trim();
+
+
+                notify(
+                    `${name} selected — educational demo mode.`
+                );
+
+            }
+        );
 
     }
-
-    box.className =
-        "selection";
-
-    box.innerHTML = `
-
-        <strong>
-            ${selectedBet.home}
-            vs
-            ${selectedBet.away}
-        </strong>
-
-        <div
-            style="
-            color:#9bd85c;
-            margin-top:7px;
-            font-size:12px;
-            "
-        >
-            ${selectedBet.outcome}
-            @
-            <b>${selectedBet.odds}</b>
-        </div>
-
-        <button
-            class="remove"
-            id="removeBet"
-        >
-            Remove
-        </button>
-
-    `;
-
-    $("#selectionCount").textContent =
-        "1";
-
-    $("#removeBet").onclick = () => {
-
-        selectedBet = null;
-
-        updateSelection();
-
-    };
-
-}
+);
 
 
 /* =========================================================
-   FAKE SPORTS BET
+   NAVIGATION
 ========================================================= */
 
-$("#placeBet").onclick = () => {
+document
+.querySelectorAll(
+    ".nav-item"
+)
+.forEach(
+    item => {
 
-    if(!selectedBet){
+        item.addEventListener(
+            "click",
+            () => {
 
-        toast(
-            "Select a simulated match first."
+                document
+                .querySelectorAll(
+                    ".nav-item"
+                )
+                .forEach(
+                    nav =>
+                        nav.classList.remove(
+                            "active"
+                        )
+                );
+
+
+                item.classList.add(
+                    "active"
+                );
+
+
+                const section =
+                    item.textContent
+                    .replace(
+                        "New",
+                        ""
+                    )
+                    .trim();
+
+
+                if(
+                    section
+                    .toLowerCase()
+                    .includes(
+                        "aviator"
+                    )
+                ){
+
+                    document
+                    .querySelector(
+                        ".aviator"
+                    )
+                    .scrollIntoView({
+                        behavior:"smooth"
+                    });
+
+                }else{
+
+                    notify(
+                        `${section} — simulated section.`
+                    );
+
+                }
+
+            }
         );
-
-        return;
 
     }
+);
 
-    const stake =
-        Number($("#stake").value);
 
-    if(!stake || stake <= 0){
+/* =========================================================
+   AVIATOR ENGINE
+========================================================= */
 
-        toast(
-            "Enter a demo stake."
-        );
+const aviator = {
 
-        return;
+    balance:10000,
 
-    }
+    round:0,
 
-    toast(
-        `SIMULATION ONLY: KSh ${stake.toLocaleString()} was not wagered.`
+    running:false,
+
+    countdown:false,
+
+    cashedOut:false,
+
+    stake:0,
+
+    multiplier:1,
+
+    crashPoint:0,
+
+    startTime:0,
+
+    animation:null,
+
+    audio:null
+
+};
+
+
+const aviatorStake =
+    document.getElementById(
+        "aviatorStake"
     );
 
-};
-
-
-/* =========================================================
-   PROFILE / LOGIN
-========================================================= */
-
-$("#profileButton").onclick = () => {
-
-    $("#loginModal")
-        .classList
-        .remove("hidden");
-
-};
-
-
-$("#loginForm").onsubmit = event => {
-
-    event.preventDefault();
-
-    const email =
-        $("#demoEmail").value.trim();
-
-    const username =
-        $("#demoUsername").value.trim();
-
-    /*
-       IMPORTANT:
-
-       These values are intentionally NOT:
-
-       - sent with fetch()
-       - sent with XMLHttpRequest
-       - written to localStorage
-       - written to sessionStorage
-       - placed in cookies
-       - sent to a backend
-
-       They exist only for this browser event.
-    */
-
-    $("#loginResult").textContent =
-
-        `Demo session created for ${username}.
-         The supplied email was not transmitted or stored.`;
-
-    toast(
-        "Anonymous educational session started."
+const startRound =
+    document.getElementById(
+        "startRound"
     );
 
-};
-
-
-/* =========================================================
-   DEPOSIT BUTTON
-========================================================= */
-
-$("#depositButton").onclick = () => {
-
-    toast(
-        "DEMO ONLY: payment functionality is disabled."
+const cashOut =
+    document.getElementById(
+        "cashOut"
     );
 
-};
+const balanceDisplay =
+    document.getElementById(
+        "balance"
+    );
+
+const multiplierDisplay =
+    document.getElementById(
+        "multiplier"
+    );
+
+const flightStatus =
+    document.getElementById(
+        "flightStatus"
+    );
+
+const plane =
+    document.getElementById(
+        "plane"
+    );
+
+const flightLine =
+    document.getElementById(
+        "flightLine"
+    );
+
+const gameLog =
+    document.getElementById(
+        "gameLog"
+    );
+
+const lastCrash =
+    document.getElementById(
+        "lastCrash"
+    );
+
+const roundNumber =
+    document.getElementById(
+        "roundNumber"
+    );
+
+const gameState =
+    document.getElementById(
+        "gameState"
+    );
 
 
 /* =========================================================
-   LEARNING MODAL
+   BALANCE
 ========================================================= */
-
-$("#learnButton").onclick = () => {
-
-    $("#learnModal")
-        .classList
-        .remove("hidden");
-
-};
-
-
-/* =========================================================
-   MODAL CLOSE
-========================================================= */
-
-$$("[data-close]").forEach(button => {
-
-    button.onclick = () => {
-
-        const modal =
-            document.getElementById(
-                button.dataset.close
-            );
-
-        modal.classList.add("hidden");
-
-    };
-
-});
-
-
-/* =========================================================
-   SPORTS SIDEBAR
-========================================================= */
-
-$$(".sport").forEach(button => {
-
-    button.onclick = () => {
-
-        $$(".sport").forEach(
-            item =>
-                item.classList.remove("active")
-        );
-
-        button.classList.add("active");
-
-        toast(
-            `${button.textContent.trim()} selected.`
-        );
-
-    };
-
-});
-
-
-/* =========================================================
-   AVIATOR SIMULATION
-========================================================= */
-
-/*
-
-   This is NOT a real gambling engine.
-
-   It uses:
-
-       - fictional virtual credits
-       - browser-only state
-       - random crash point
-       - animation
-       - cash-out mechanic
-
-   There is no real-money settlement.
-
-*/
-
-
-let balance = 10000;
-
-let gameRunning = false;
-
-let currentStake = 0;
-
-let currentMultiplier = 1;
-
-let crashPoint = 0;
-
-let animationFrame = null;
-
-let startTimestamp = 0;
-
-let cashedOut = false;
-
-
-/* -----------------------------------------
-   UPDATE BALANCE
------------------------------------------ */
 
 function updateBalance(){
 
-    $("#balance").textContent =
-        balance.toLocaleString(
+    balanceDisplay.textContent =
+        aviator.balance.toLocaleString(
             undefined,
             {
+                minimumFractionDigits:2,
                 maximumFractionDigits:2
             }
         );
 
 }
 
+
 updateBalance();
 
 
-/* -----------------------------------------
-   RANDOM CRASH POINT
------------------------------------------ */
+/* =========================================================
+   AUDIO
+========================================================= */
 
-function generateCrashPoint(){
+function getAudioContext(){
 
-    /*
-       Heavily simplified random distribution.
+    if(!aviator.audio){
 
-       It exists solely to create a game-like
-       animation for educational purposes.
-    */
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
 
-    const random =
-        Math.random();
+        if(!AudioContext)
+            return null;
 
-    if(random < .02)
-        return 1.00;
+        aviator.audio =
+            new AudioContext();
 
-    if(random < .15)
-        return 1.10 +
-            Math.random()*0.90;
+    }
 
-    if(random < .70)
-        return 2.00 +
-            Math.random()*4.00;
-
-    if(random < .94)
-        return 6.00 +
-            Math.random()*14.00;
-
-    return 20 +
-        Math.random()*80;
+    return aviator.audio;
 
 }
 
 
-/* -----------------------------------------
-   START AVIATOR ROUND
------------------------------------------ */
+function beep(
+    frequency=700,
+    duration=.08,
+    volume=.05
+){
 
-$("#startRound").onclick = () => {
+    const ctx =
+        getAudioContext();
 
-    if(gameRunning){
-
-        toast(
-            "A demo round is already running."
-        );
-
+    if(!ctx)
         return;
 
-    }
 
-    const stake =
-        Number($("#aviatorStake").value);
+    const oscillator =
+        ctx.createOscillator();
 
-    if(!stake || stake <= 0){
+    const gain =
+        ctx.createGain();
 
-        toast(
-            "Enter a valid demo stake."
-        );
 
-        return;
+    oscillator.type =
+        "sine";
 
-    }
+    oscillator.frequency.value =
+        frequency;
 
-    if(stake > balance){
 
-        toast(
-            "Insufficient fictional demo credits."
-        );
-
-        return;
-
-    }
-
-    balance -= stake;
-
-    updateBalance();
-
-    currentStake = stake;
-
-    crashPoint =
-        generateCrashPoint();
-
-    currentMultiplier = 1;
-
-    gameRunning = true;
-
-    cashedOut = false;
-
-    startTimestamp =
-        performance.now();
-
-    $("#startRound").disabled = true;
-
-    $("#cashOut").disabled = false;
-
-    $("#flightStatus").textContent =
-        "FLYING — CASH OUT BEFORE THE CRASH";
-
-    $("#multiplier").textContent =
-        "1.00x";
-
-    $("#plane").style.left =
-        "5%";
-
-    $("#plane").style.bottom =
-        "12%";
-
-    $("#flightLine").style.transform =
-        "rotate(-14deg)";
-
-    addGameLog(
-        `Round started — demo stake KSh ${stake.toLocaleString()}`
+    gain.gain.setValueAtTime(
+        volume,
+        ctx.currentTime
     );
 
-    animationFrame =
-        requestAnimationFrame(
-            updateFlight
-        );
 
-};
+    gain.gain.exponentialRampToValueAtTime(
+        .001,
+        ctx.currentTime +
+        duration
+    );
 
 
-/* -----------------------------------------
-   FLIGHT ANIMATION
------------------------------------------ */
+    oscillator.connect(
+        gain
+    );
 
-function updateFlight(timestamp){
+    gain.connect(
+        ctx.destination
+    );
 
-    if(!gameRunning)
+
+    oscillator.start();
+
+    oscillator.stop(
+        ctx.currentTime +
+        duration
+    );
+
+}
+
+
+function crashSound(){
+
+    const ctx =
+        getAudioContext();
+
+    if(!ctx)
         return;
 
-    const elapsed =
-        (timestamp -
-            startTimestamp)
-        / 1000;
+
+    const oscillator =
+        ctx.createOscillator();
+
+    const gain =
+        ctx.createGain();
+
+
+    oscillator.type =
+        "sawtooth";
+
+
+    oscillator.frequency.setValueAtTime(
+        180,
+        ctx.currentTime
+    );
+
+
+    oscillator.frequency.exponentialRampToValueAtTime(
+        45,
+        ctx.currentTime+.7
+    );
+
+
+    gain.gain.setValueAtTime(
+        .001,
+        ctx.currentTime
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        .35,
+        ctx.currentTime+.03
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        .001,
+        ctx.currentTime+.7
+    );
+
+
+    oscillator.connect(
+        gain
+    );
+
+    gain.connect(
+        ctx.destination
+    );
+
+
+    oscillator.start();
+
+    oscillator.stop(
+        ctx.currentTime+.7
+    );
+
 
     /*
-       Exponential-looking multiplier
-       for visual realism.
+       Noise impact.
     */
 
-    currentMultiplier =
-        Math.exp(
-            elapsed * 0.18
+    const size =
+        ctx.sampleRate*.5;
+
+
+    const buffer =
+        ctx.createBuffer(
+            1,
+            size,
+            ctx.sampleRate
         );
 
-    $("#multiplier").textContent =
-        currentMultiplier.toFixed(2)
-        + "x";
 
-    /*
-       Move plane
-    */
+    const data =
+        buffer.getChannelData(0);
+
+
+    for(
+        let i=0;
+        i<data.length;
+        i++
+    ){
+
+        data[i] =
+            Math.random()*2-1;
+
+    }
+
+
+    const noise =
+        ctx.createBufferSource();
+
+    const noiseGain =
+        ctx.createGain();
+
+
+    noise.buffer =
+        buffer;
+
+
+    noiseGain.gain.setValueAtTime(
+        .001,
+        ctx.currentTime
+    );
+
+
+    noiseGain.gain.exponentialRampToValueAtTime(
+        .25,
+        ctx.currentTime+.02
+    );
+
+
+    noiseGain.gain.exponentialRampToValueAtTime(
+        .001,
+        ctx.currentTime+.45
+    );
+
+
+    noise.connect(
+        noiseGain
+    );
+
+    noiseGain.connect(
+        ctx.destination
+    );
+
+    noise.start();
+
+}
+
+
+function winSound(){
+
+    beep(
+        650,
+        .10,
+        .07
+    );
+
+    setTimeout(
+        () =>
+            beep(
+                900,
+                .12,
+                .07
+            ),
+        100
+    );
+
+    setTimeout(
+        () =>
+            beep(
+                1200,
+                .18,
+                .07
+            ),
+        220
+    );
+
+}
+
+
+/* =========================================================
+   RANDOM CRASH
+========================================================= */
+
+function generateCrashPoint(){
+
+    const r =
+        Math.random();
+
+
+    if(r < .015){
+
+        return 1.00;
+
+    }
+
+
+    if(r < .20){
+
+        return (
+            1.05 +
+            Math.random()*1.45
+        );
+
+    }
+
+
+    if(r < .75){
+
+        return (
+            2.50 +
+            Math.random()*5.50
+        );
+
+    }
+
+
+    if(r < .95){
+
+        return (
+            8 +
+            Math.random()*22
+        );
+
+    }
+
+
+    return (
+        30 +
+        Math.random()*120
+    );
+
+}
+
+
+/* =========================================================
+   LOG
+========================================================= */
+
+function logGame(message){
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+
+    item.textContent =
+        new Date()
+        .toLocaleTimeString()
+        +
+        " — "
+        +
+        message;
+
+
+    gameLog.prepend(
+        item
+    );
+
+
+    while(
+        gameLog.children.length > 15
+    ){
+
+        gameLog.removeChild(
+            gameLog.lastChild
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetFlight(){
+
+    multiplierDisplay
+    .classList
+    .remove(
+        "crashed",
+        "won"
+    );
+
+
+    multiplierDisplay.textContent =
+        "1.00x";
+
+
+    plane.style.left =
+        "4%";
+
+    plane.style.bottom =
+        "10%";
+
+
+    flightLine.style.transform =
+        "rotate(-15deg)";
+
+}
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+function countdown(){
+
+    return new Promise(
+        resolve => {
+
+            let count=3;
+
+            aviator.countdown =
+                true;
+
+
+            flightStatus.textContent =
+                `NEXT DEMO ROUND IN ${count}`;
+
+
+            beep(
+                500,
+                .08,
+                .04
+            );
+
+
+            const timer =
+                setInterval(
+                    () => {
+
+                        count--;
+
+
+                        if(count>0){
+
+                            flightStatus.textContent =
+                                `NEXT DEMO ROUND IN ${count}`;
+
+
+                            beep(
+                                500+
+                                count*100,
+                                .08,
+                                .05
+                            );
+
+                        }else{
+
+                            clearInterval(
+                                timer
+                            );
+
+                            aviator.countdown =
+                                false;
+
+                            resolve();
+
+                        }
+
+                    },
+                    700
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   START ROUND
+========================================================= */
+
+startRound.addEventListener(
+    "click",
+    async () => {
+
+        if(
+            aviator.running ||
+            aviator.countdown
+        ){
+
+            return;
+
+        }
+
+
+        const stake =
+            Number(
+                aviatorStake.value
+            );
+
+
+        if(
+            !Number.isFinite(stake) ||
+            stake<=0
+        ){
+
+            notify(
+                "Enter a valid demo stake."
+            );
+
+            return;
+
+        }
+
+
+        if(
+            stake >
+            aviator.balance
+        ){
+
+            notify(
+                "Insufficient fictional demo balance."
+            );
+
+            return;
+
+        }
+
+
+        const audio =
+            getAudioContext();
+
+
+        if(
+            audio &&
+            audio.state ===
+            "suspended"
+        ){
+
+            await audio.resume();
+
+        }
+
+
+        await countdown();
+
+
+        aviator.round++;
+
+        aviator.running =
+            true;
+
+        aviator.cashedOut =
+            false;
+
+        aviator.stake =
+            stake;
+
+        aviator.multiplier =
+            1;
+
+        aviator.crashPoint =
+            generateCrashPoint();
+
+        aviator.startTime =
+            performance.now();
+
+
+        aviator.balance -=
+            stake;
+
+
+        updateBalance();
+
+
+        roundNumber.textContent =
+            aviator.round;
+
+
+        gameState.textContent =
+            "FLYING";
+
+
+        lastCrash.textContent =
+            "—";
+
+
+        resetFlight();
+
+
+        startRound.disabled =
+            true;
+
+
+        cashOut.disabled =
+            false;
+
+
+        flightStatus.textContent =
+            "🚀 FLYING — CASH OUT BEFORE CRASH";
+
+
+        logGame(
+            `Round #${aviator.round} started with KSh ${stake.toFixed(2)} demo stake`
+        );
+
+
+        aviator.animation =
+            requestAnimationFrame(
+                animateFlight
+            );
+
+    }
+);
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+function animateFlight(timestamp){
+
+    if(
+        !aviator.running
+    ){
+
+        return;
+
+    }
+
+
+    const elapsed =
+        (
+            timestamp -
+            aviator.startTime
+        ) /
+        1000;
+
+
+    aviator.multiplier =
+        Math.exp(
+            elapsed*.18
+        );
+
+
+    multiplierDisplay.textContent =
+        aviator.multiplier.toFixed(2)
+        +
+        "x";
+
 
     const progress =
         Math.min(
-            elapsed / 25,
-            .92
+            elapsed/28,
+            .94
         );
 
-    $("#plane").style.left =
-        `${5 + progress*78}%`;
 
-    $("#plane").style.bottom =
-        `${12 + progress*48}%`;
+    plane.style.left =
+        (
+            4+
+            progress*82
+        )
+        +
+        "%";
 
-    /*
-       Crash
-    */
+
+    plane.style.bottom =
+        (
+            10+
+            progress*55
+        )
+        +
+        "%";
+
+
+    flightLine.style.transform =
+        `rotate(${
+            -15-
+            progress*10
+        }deg)`;
+
 
     if(
-        currentMultiplier >=
-        crashPoint
+        aviator.multiplier >=
+        aviator.crashPoint
     ){
 
         crashRound();
@@ -2700,242 +4135,247 @@ function updateFlight(timestamp){
 
     }
 
-    animationFrame =
+
+    aviator.animation =
         requestAnimationFrame(
-            updateFlight
+            animateFlight
         );
 
 }
 
 
-/* -----------------------------------------
+/* =========================================================
    CASH OUT
------------------------------------------ */
+========================================================= */
 
-$("#cashOut").onclick = () => {
+cashOut.addEventListener(
+    "click",
+    () => {
 
-    if(!gameRunning){
+        if(
+            !aviator.running ||
+            aviator.cashedOut
+        ){
 
-        return;
+            return;
+
+        }
+
+
+        aviator.cashedOut =
+            true;
+
+
+        const payout =
+            aviator.stake *
+            aviator.multiplier;
+
+
+        aviator.balance +=
+            payout;
+
+
+        updateBalance();
+
+
+        cashOut.disabled =
+            true;
+
+
+        multiplierDisplay
+        .classList
+        .add(
+            "won"
+        );
+
+
+        flightStatus.textContent =
+            `💰 DEMO CASHED OUT @ ${aviator.multiplier.toFixed(2)}x`;
+
+
+        gameState.textContent =
+            "CASHED OUT";
+
+
+        winSound();
+
+
+        logGame(
+            `Cashed out at ${aviator.multiplier.toFixed(2)}x — virtual return KSh ${payout.toFixed(2)}`
+        );
 
     }
-
-    if(cashedOut){
-
-        return;
-
-    }
-
-    cashedOut = true;
-
-    const winnings =
-        currentStake *
-        currentMultiplier;
-
-    balance += winnings;
-
-    updateBalance();
-
-    $("#cashOut").disabled = true;
-
-    $("#flightStatus").textContent =
-        `DEMO CASH OUT @ ${currentMultiplier.toFixed(2)}x`;
-
-    addGameLog(
-        `Cashed out at ${currentMultiplier.toFixed(2)}x — virtual return KSh ${winnings.toFixed(2)}`
-    );
-
-    /*
-       Continue animation visually,
-       but the player's fictional bet
-       has already been settled.
-    */
-
-};
+);
 
 
-/* -----------------------------------------
-   CRASH ROUND
------------------------------------------ */
+/* =========================================================
+   CRASH
+========================================================= */
 
 function crashRound(){
 
-    gameRunning = false;
+    aviator.running =
+        false;
+
 
     cancelAnimationFrame(
-        animationFrame
+        aviator.animation
     );
 
-    $("#multiplier").textContent =
-        crashPoint.toFixed(2)
-        + "x";
 
-    $("#flightStatus").textContent =
+    multiplierDisplay.textContent =
+        aviator.crashPoint.toFixed(2)
+        +
+        "x";
+
+
+    multiplierDisplay
+    .classList
+    .add(
+        "crashed"
+    );
+
+
+    flightStatus.textContent =
         "💥 CRASHED — DEMO ROUND ENDED";
 
-    $("#cashOut").disabled = true;
 
-    $("#startRound").disabled = false;
+    gameState.textContent =
+        "CRASHED";
 
-    if(!cashedOut){
 
-        addGameLog(
-            `Crashed at ${crashPoint.toFixed(2)}x — demo stake lost`
-        );
+    lastCrash.textContent =
+        aviator.crashPoint.toFixed(2)
+        +
+        "x";
 
-        toast(
-            `Demo round crashed at ${crashPoint.toFixed(2)}x`
+
+    cashOut.disabled =
+        true;
+
+
+    startRound.disabled =
+        false;
+
+
+    crashSound();
+
+
+    if(
+        !aviator.cashedOut
+    ){
+
+        logGame(
+            `💥 Round #${aviator.round} crashed at ${aviator.crashPoint.toFixed(2)}x — KSh ${aviator.stake.toFixed(2)} demo stake lost`
         );
 
     }else{
 
-        toast(
-            "Demo round ended."
+        logGame(
+            `Round #${aviator.round} ended at ${aviator.crashPoint.toFixed(2)}x`
         );
 
     }
 
-    currentStake = 0;
 
-}
-
-
-/* -----------------------------------------
-   GAME HISTORY
------------------------------------------ */
-
-function addGameLog(message){
-
-    const log =
-        $("#gameLog");
-
-    const entry =
-        document.createElement(
-            "div"
-        );
-
-    const time =
-        new Date()
-        .toLocaleTimeString();
-
-    entry.textContent =
-        `${time} — ${message}`;
-
-    log.prepend(entry);
-
-    /*
-       Keep history small.
-    */
-
-    while(
-        log.children.length > 12
-    ){
-
-        log.removeChild(
-            log.lastChild
-        );
-
-    }
+    setTimeout(
+        prepareNextRound,
+        2200
+    );
 
 }
 
 
 /* =========================================================
-   DEMO LIVE COUNT
+   NEXT ROUND
 ========================================================= */
 
-setInterval(() => {
-
-    const element =
-        $("#liveCount");
-
-    const current =
-        Number(element.textContent);
-
-    const change =
-        Math.random() > .5
-            ? 1
-            : -1;
-
-    element.textContent =
-        Math.max(
-            100,
-            current + change
-        );
-
-},3500);
-
-
-/* =========================================================
-   FAKE LIVE NOTIFICATIONS
-========================================================= */
-
-const fakeMessages = [
-
-    "Demo user won KSh 4,200",
-
-    "Demo user cashed out at 3.41x",
-
-    "New simulated selection added",
-
-    "Demo player won KSh 12,800",
-
-    "Another demo round started",
-
-    "Educational simulation active"
-
-];
-
-setInterval(() => {
+function prepareNextRound(){
 
     if(
-        document
-            .getElementById("intro")
-            .style
-            .display === "none"
+        aviator.running
     ){
 
-        const message =
-            fakeMessages[
-                Math.floor(
-                    Math.random() *
-                    fakeMessages.length
-                )
-            ];
-
-        toast(
-            "📢 " + message
-        );
+        return;
 
     }
 
-},9000);
+
+    resetFlight();
+
+
+    flightStatus.textContent =
+        "PLACE A DEMO BET TO START";
+
+
+    gameState.textContent =
+        "WAITING";
+
+}
 
 
 /* =========================================================
-   PREVENT ACCIDENTAL REAL-FORM SUBMISSION
+   SPACEBAR CASHOUT
 ========================================================= */
 
 document.addEventListener(
-    "submit",
+    "keydown",
     event => {
 
-        /*
-           All forms are educational only.
-           Nothing is sent to a server.
-        */
-
         if(
-            event.target.id !==
-            "loginForm"
+            event.code ===
+            "Space"
         ){
 
             event.preventDefault();
+
+
+            if(
+                aviator.running &&
+                !aviator.cashedOut
+            ){
+
+                cashOut.click();
+
+            }
 
         }
 
     }
 );
+
+
+/* =========================================================
+   INITIAL HISTORY
+========================================================= */
+
+for(
+    let i=0;
+    i<7;
+    i++
+){
+
+    logGame(
+        `Previous demo crash: ${generateCrashPoint().toFixed(2)}x`
+    );
+
+}
+
+
+/* =========================================================
+   INITIAL STATE
+========================================================= */
+
+resetFlight();
+
+updateBalance();
+
+gameState.textContent =
+    "WAITING";
+
+
+flightStatus.textContent =
+    "PLACE A DEMO BET TO START";
 
 </script>
 
