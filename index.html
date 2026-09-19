@@ -1,374 +1,2841 @@
-<!-- =========================================================
-     EDUCATIONAL SIMULATION CONTROLS
-     ========================================================= -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aviator Educational Simulation</title>
 
-<div class="demo-warning">
-    ⚠️ EDUCATIONAL SIMULATION — FAKE MONEY ONLY — NO REAL BETTING
-</div>
-
-<div class="audio-control-wrap">
-    <button id="audioMenuBtn" class="audio-menu-btn">
-        🔊 Audio ▾
-    </button>
-
-    <div id="audioDropdown" class="audio-dropdown">
-
-        <div class="audio-row">
-            <span>🔊 Sound effects</span>
-            <button id="soundToggle" class="audio-toggle active">
-                ON
-            </button>
-        </div>
-
-        <div class="audio-row">
-            <span>🎵 Background music</span>
-            <button id="musicToggle" class="audio-toggle active">
-                ON
-            </button>
-        </div>
-
-        <div class="audio-row volume-row">
-            <span>🔉 Volume</span>
-            <input
-                id="masterVolume"
-                type="range"
-                min="0"
-                max="1"
-                value="0.35"
-                step="0.01"
-            >
-        </div>
-
-        <div class="audio-note">
-            Original browser-generated demo audio.
-        </div>
-
-    </div>
-</div>
-
-<!-- Optional additional status indicators -->
-
-<div class="simulation-status">
-    <span>
-        ROUND:
-        <strong id="simRound">1</strong>
-    </span>
-
-    <span>
-        STATUS:
-        <strong id="simStatus">FLYING</strong>
-    </span>
-
-    <span>
-        CRASH:
-        <strong id="simCrash">—</strong>
-    </span>
-
-    <span>
-        BET:
-        <strong id="simBetStatus">NO BET</strong>
-    </span>
-</div>
+<style>
 /* =========================================================
-   EDUCATIONAL DEMO / AUDIO CONTROLS
-   ========================================================= */
+   RESET / BASE
+========================================================= */
 
-.demo-warning {
-    width: 100%;
+* {
     box-sizing: border-box;
-    padding: 9px 14px;
-    margin: 8px 0;
-
-    background: #351b1b;
-    border: 1px solid #ff5a5a;
-    color: #ffb3b3;
-
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 800;
-
-    text-align: center;
-    letter-spacing: .4px;
-
-    border-radius: 6px;
-    animation: warningPulse 2s infinite;
+    margin: 0;
+    padding: 0;
 }
 
-@keyframes warningPulse {
-    0%, 100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: .65;
-    }
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #070b12;
+    color: #ffffff;
 }
 
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+}
 
 /* =========================================================
-   AUDIO DROPDOWN
-   ========================================================= */
+   EDUCATIONAL WARNING
+========================================================= */
 
-.audio-control-wrap {
-    position: fixed;
-    right: 20px;
-    top: 75px;
-
-    z-index: 99999;
-
-    font-family: Arial, sans-serif;
+.educational-warning {
+    width: 100%;
+    background: linear-gradient(90deg, #6b0000, #a50000, #6b0000);
+    border-bottom: 2px solid #ff4d4d;
+    padding: 12px 18px;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    font-size: 14px;
+    color: #ffffff;
+    position: relative;
+    z-index: 1000;
 }
 
-.audio-menu-btn {
-    border: 0;
-    outline: 0;
-
-    background: #1d3040;
-    color: #fff;
-
-    padding: 11px 17px;
-
-    border-radius: 7px;
-
-    cursor: pointer;
-
-    font-size: 13px;
-    font-weight: 700;
-
-    box-shadow:
-        0 5px 20px rgba(0,0,0,.3);
-
-    transition:
-        background .2s,
-        transform .2s;
+.educational-warning span {
+    color: #ffe600;
 }
 
-.audio-menu-btn:hover {
-    background: #294357;
-    transform: translateY(-1px);
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.app {
+    width: 100%;
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 16px;
 }
 
+/* =========================================================
+   TOP BAR
+========================================================= */
 
-.audio-dropdown {
-    display: none;
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
 
-    position: absolute;
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-    right: 0;
-    top: 45px;
+.logo-plane {
+    font-size: 34px;
+}
 
-    width: 270px;
+.logo-text {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
 
-    background: #142331;
+.logo-subtitle {
+    font-size: 11px;
+    color: #8e9aaa;
+    margin-top: 2px;
+}
 
-    border: 1px solid #30495d;
+/* =========================================================
+   AUDIO CONTROL
+========================================================= */
 
+.audio-wrapper {
+    position: relative;
+}
+
+.audio-button {
+    border: 1px solid #394354;
+    background: #111824;
+    color: #ffffff;
+    padding: 10px 15px;
     border-radius: 9px;
-
-    padding: 13px;
-
-    box-shadow:
-        0 15px 40px rgba(0,0,0,.45);
+    cursor: pointer;
+    font-weight: 700;
+    transition: 0.2s;
 }
 
-.audio-dropdown.open {
+.audio-button:hover {
+    background: #192232;
+}
+
+.audio-panel {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 48px;
+    width: 270px;
+    background: #111824;
+    border: 1px solid #364153;
+    border-radius: 12px;
+    padding: 15px;
+    z-index: 900;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.45);
+}
+
+.audio-panel.open {
     display: block;
 }
 
-
 .audio-row {
     display: flex;
-
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
 
-    gap: 15px;
+.audio-row:last-child {
+    margin-bottom: 0;
+}
 
-    padding: 10px 3px;
-
-    color: #d9e4eb;
-
+.audio-row label {
     font-size: 13px;
+    color: #d9dee7;
 }
 
-.audio-row + .audio-row {
-    border-top: 1px solid rgba(255,255,255,.06);
+.audio-select {
+    background: #080d15;
+    border: 1px solid #3a4557;
+    color: #ffffff;
+    border-radius: 7px;
+    padding: 7px 9px;
 }
 
-
-.audio-toggle {
-    min-width: 54px;
-
-    padding: 6px 10px;
-
-    border: 0;
-    border-radius: 20px;
-
-    cursor: pointer;
-
-    background: #5b3535;
-    color: #ffd1d1;
-
-    font-weight: 800;
-}
-
-.audio-toggle.active {
-    background: #2eb84d;
-    color: #fff;
-}
-
-
-.volume-row {
-    flex-wrap: wrap;
-}
-
-#masterVolume {
+.volume-control {
     width: 100%;
 }
 
+/* =========================================================
+   DASHBOARD
+========================================================= */
 
-.audio-note {
-    margin-top: 8px;
-
-    padding-top: 9px;
-
-    border-top: 1px solid rgba(255,255,255,.07);
-
-    color: #8499a8;
-
-    font-size: 10px;
-
-    line-height: 1.4;
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
 }
 
-
 /* =========================================================
-   SIMULATION STATUS
-   ========================================================= */
+   GAME AREA
+========================================================= */
 
-.simulation-status {
+.game-card {
+    background:
+        radial-gradient(circle at 50% 45%, rgba(23,72,120,0.20), transparent 45%),
+        linear-gradient(145deg, #0d1420, #080d15);
+    border: 1px solid #283344;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.35);
+}
+
+.game-header {
+    padding: 13px 16px;
+    border-bottom: 1px solid #242e3d;
     display: flex;
-
-    gap: 18px;
-
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
     flex-wrap: wrap;
-
-    padding: 9px 14px;
-
-    background: #0d1b27;
-
-    border-top: 1px solid #263c4c;
-    border-bottom: 1px solid #263c4c;
-
-    color: #8fa7b7;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 11px;
 }
 
-.simulation-status strong {
-    color: #fff;
-    margin-left: 4px;
+.game-title {
+    font-size: 15px;
+    font-weight: 800;
 }
 
-#simStatus {
-    color: #42d563;
+.demo-badge {
+    background: rgba(255, 196, 0, 0.12);
+    border: 1px solid rgba(255, 196, 0, 0.4);
+    color: #ffd84a;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
 }
-
-#simCrash {
-    color: #ff6969;
-}
-
-#simBetStatus {
-    color: #f6c85f;
-}
-
 
 /* =========================================================
-   PLANE VISUAL
-   ========================================================= */
+   FLIGHT AREA
+========================================================= */
 
-.demo-plane-running {
-    animation:
-        demoPlaneFlight
-        2.5s
-        ease-in-out
-        infinite alternate;
+.flight-area {
+    position: relative;
+    height: 450px;
+    min-height: 350px;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.06) 0 1px, transparent 2px),
+        radial-gradient(circle at 75% 35%, rgba(255,255,255,0.05) 0 1px, transparent 2px),
+        radial-gradient(circle at 50% 70%, rgba(255,255,255,0.04) 0 1px, transparent 2px),
+        linear-gradient(180deg, #081321, #06101d 55%, #050a12);
+    background-size: 130px 130px, 170px 170px, 200px 200px, auto;
 }
 
-@keyframes demoPlaneFlight {
+/* stars */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+}
 
+.star1 { top: 12%; left: 12%; }
+.star2 { top: 21%; left: 31%; }
+.star3 { top: 16%; left: 61%; }
+.star4 { top: 30%; left: 82%; }
+.star5 { top: 45%; left: 19%; }
+.star6 { top: 50%; left: 72%; }
+.star7 { top: 68%; left: 35%; }
+.star8 { top: 75%; left: 87%; }
+.star9 { top: 82%; left: 13%; }
+.star10 { top: 62%; left: 57%; }
+
+/* =========================================================
+   MULTIPLIER
+========================================================= */
+
+.multiplier-container {
+    position: absolute;
+    top: 32%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 20;
+    width: 100%;
+    pointer-events: none;
+}
+
+.multiplier {
+    font-size: clamp(54px, 9vw, 108px);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -4px;
+    color: #ffffff;
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.2),
+        0 0 35px rgba(30,150,255,0.25);
+    transition: transform 0.08s linear, color 0.2s;
+}
+
+.multiplier.live {
+    animation: multiplierPulse 0.7s infinite alternate;
+}
+
+@keyframes multiplierPulse {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.015);
+    }
+}
+
+.multiplier.crashed {
+    color: #ff4141;
+    text-shadow:
+        0 0 15px rgba(255,0,0,0.35),
+        0 0 50px rgba(255,0,0,0.25);
+    animation: crashPulse 0.15s infinite alternate;
+}
+
+@keyframes crashPulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.07); }
+}
+
+.status-text {
+    margin-top: 12px;
+    color: #9aa7b8;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   FLIGHT PATH
+========================================================= */
+
+.flight-path {
+    position: absolute;
+    left: 4%;
+    right: 4%;
+    bottom: 13%;
+    height: 55%;
+    border-left: 2px solid rgba(72, 151, 221, 0.15);
+    border-bottom: 2px solid rgba(72, 151, 221, 0.15);
+    border-radius: 0 0 0 100%;
+    transform: skewY(-15deg);
+    pointer-events: none;
+}
+
+.flight-line {
+    position: absolute;
+    left: 4%;
+    bottom: 20%;
+    width: 85%;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(62,170,255,0.2),
+        rgba(62,170,255,0.5),
+        transparent
+    );
+    transform: rotate(-10deg);
+    transform-origin: left center;
+}
+
+/* =========================================================
+   PLANE
+========================================================= */
+
+.plane {
+    position: absolute;
+    left: 5%;
+    bottom: 21%;
+    z-index: 30;
+    font-size: 42px;
+    filter:
+        drop-shadow(0 0 8px rgba(0,174,255,0.7))
+        drop-shadow(0 0 20px rgba(0,174,255,0.35));
+    transform-origin: center center;
+    pointer-events: none;
+
+    /*
+      The plane animation NEVER stops.
+      The simulation only changes its visual state.
+    */
+    animation: continuousFlight 7s linear infinite;
+}
+
+@keyframes continuousFlight {
     0% {
-        transform:
-            translate3d(0, 5px, 0)
-            rotate(-5deg);
+        left: 4%;
+        bottom: 19%;
+        transform: rotate(-5deg) scale(1);
+    }
+
+    25% {
+        left: 28%;
+        bottom: 25%;
+        transform: rotate(-10deg) scale(1.03);
     }
 
     50% {
-        transform:
-            translate3d(35px, -15px, 0)
-            rotate(-2deg);
+        left: 52%;
+        bottom: 35%;
+        transform: rotate(-15deg) scale(1.06);
+    }
+
+    75% {
+        left: 74%;
+        bottom: 49%;
+        transform: rotate(-19deg) scale(1.09);
     }
 
     100% {
-        transform:
-            translate3d(70px, -35px, 0)
-            rotate(4deg);
+        left: 94%;
+        bottom: 66%;
+        transform: rotate(-23deg) scale(1.12);
     }
 }
 
+/* Additional flight trail */
+.plane::after {
+    content: "";
+    position: absolute;
+    width: 85px;
+    height: 3px;
+    right: 35px;
+    top: 25px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0,174,255,0.15),
+        rgba(0,174,255,0.55)
+    );
+    transform: rotate(3deg);
+    border-radius: 50%;
+}
 
 /* =========================================================
-   MULTIPLIER EFFECT
-   ========================================================= */
+   CRASH FLASH
+========================================================= */
 
-.demo-multiplier-running {
-    text-shadow:
-        0 0 8px rgba(255,255,255,.25),
-        0 0 20px rgba(40,190,255,.12);
-
-    transition:
-        transform .08s linear;
+.crash-flash {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 30, 30, 0.08);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 15;
 }
 
-.demo-multiplier-running.pulse {
-    transform: scale(1.025);
-}
-
-
-.demo-crashed {
-    color: #ff4c4c !important;
-
-    animation:
-        crashFlash
-        .25s
-        ease-in-out
-        4;
+.crash-flash.active {
+    animation: crashFlash 0.65s ease;
 }
 
 @keyframes crashFlash {
-    0%, 100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: .35;
-    }
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    100% { opacity: 0; }
 }
-
 
 /* =========================================================
-   BET STATE
-   ========================================================= */
+   GAME FOOTER
+========================================================= */
 
-.demo-active-bet {
-    box-shadow:
-        0 0 0 2px rgba(46,184,77,.25),
-        0 0 25px rgba(46,184,77,.12);
+.game-footer {
+    padding: 13px 16px;
+    border-top: 1px solid #242e3d;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-.demo-cashed {
-    box-shadow:
-        0 0 0 2px rgba(246,200,95,.3);
+.live-indicator {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #9ba7b7;
+    font-size: 12px;
 }
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #35dc77;
+    box-shadow: 0 0 10px rgba(53,220,119,0.7);
+    animation: liveDot 1s infinite alternate;
+}
+
+@keyframes liveDot {
+    from { opacity: 0.45; }
+    to { opacity: 1; }
+}
+
+/* =========================================================
+   CONTROLS AREA
+========================================================= */
+
+.controls-card {
+    background: #0d1420;
+    border: 1px solid #283344;
+    border-radius: 16px;
+    padding: 18px;
+}
+
+.balance-box {
+    background: #080d15;
+    border: 1px solid #283344;
+    border-radius: 10px;
+    padding: 13px;
+    margin-bottom: 15px;
+}
+
+.balance-label {
+    color: #7f8c9e;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+
+.balance-value {
+    margin-top: 5px;
+    font-size: 24px;
+    font-weight: 900;
+}
+
+/* =========================================================
+   BET PANEL
+========================================================= */
+
+.bet-panel {
+    background: #111a28;
+    border: 1px solid #2d394b;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.bet-title {
+    font-size: 14px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.input-group {
+    margin-bottom: 12px;
+}
+
+.input-group label {
+    display: block;
+    color: #8e9aaa;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.stake-input {
+    width: 100%;
+    padding: 11px;
+    background: #080d15;
+    color: #ffffff;
+    border: 1px solid #3b4657;
+    border-radius: 8px;
+    outline: none;
+    font-size: 15px;
+}
+
+.stake-input:focus {
+    border-color: #4da8ff;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.button-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+}
+
+.btn {
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 900;
+    transition: 0.18s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-demo {
+    background: #1686d8;
+    color: #ffffff;
+}
+
+.btn-demo:hover {
+    background: #2198ee;
+}
+
+.btn-cashout {
+    background: #22b96d;
+    color: #ffffff;
+}
+
+.btn-cashout:hover {
+    background: #2bce7a;
+}
+
+.btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* =========================================================
+   BET STATUS
+========================================================= */
+
+.bet-status-box {
+    margin-top: 15px;
+    background: #080d15;
+    border: 1px solid #283344;
+    border-radius: 10px;
+    padding: 13px;
+}
+
+.bet-status-title {
+    font-size: 11px;
+    color: #7f8c9e;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.bet-status {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.bet-status.waiting {
+    color: #9ba7b7;
+}
+
+.bet-status.active {
+    color: #31cfff;
+}
+
+.bet-status.won {
+    color: #34db79;
+}
+
+.bet-status.lost {
+    color: #ff5353;
+}
+
+/* =========================================================
+   SIMULATION INFORMATION
+========================================================= */
+
+.info-card {
+    margin-top: 15px;
+    background: #0a1019;
+    border: 1px solid #283344;
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.info-title {
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 10px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 12px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: #7f8c9e;
+}
+
+.info-value {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+/* =========================================================
+   EDUCATIONAL FOOTER
+========================================================= */
+
+.education-note {
+    margin-top: 15px;
+    padding: 13px;
+    background: rgba(255, 196, 0, 0.06);
+    border: 1px solid rgba(255, 196, 0, 0.22);
+    border-radius: 10px;
+    color: #c4ccd7;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.education-note strong {
+    color: #ffd84a;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .app {
+        padding: 10px;
+    }
+
+    .flight-area {
+        height: 390px;
+    }
+
+    .multiplier {
+        font-size: 60px;
+    }
+
+    .plane {
+        font-size: 34px;
+    }
+
+    .button-row {
+        grid-template-columns: 1fr;
+    }
+
+    .audio-panel {
+        right: -5px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     EDUCATIONAL WARNING
+========================================================= -->
+
+<div class="educational-warning">
+    ⚠️ <span>EDUCATIONAL SIMULATION</span> — FAKE MONEY ONLY — NO REAL BETTING
+</div>
+
+<div class="app">
+
+    <!-- =====================================================
+         TOP BAR
+    ====================================================== -->
+
+    <div class="top-bar">
+
+        <div class="logo-area">
+            <div class="logo-plane">✈️</div>
+
+            <div>
+                <div class="logo-text">AVIATOR DEMO</div>
+                <div class="logo-subtitle">
+                    Public educational crash-game simulation
+                </div>
+            </div>
+        </div>
+
+        <!-- AUDIO DROPDOWN -->
+
+        <div class="audio-wrapper">
+
+            <button
+                id="audioButton"
+                class="audio-button"
+                type="button"
+            >
+                🔊 Audio Settings
+            </button>
+
+            <div
+                id="audioPanel"
+                class="audio-panel"
+            >
+
+                <div class="audio-row">
+
+                    <label for="soundSelect">
+                        Sound Effects
+                    </label>
+
+                    <select
+                        id="soundSelect"
+                        class="audio-select"
+                    >
+                        <option value="on">ON</option>
+                        <option value="off">OFF</option>
+                    </select>
+
+                </div>
+
+                <div class="audio-row">
+
+                    <label for="musicSelect">
+                        Background Music
+                    </label>
+
+                    <select
+                        id="musicSelect"
+                        class="audio-select"
+                    >
+                        <option value="on">ON</option>
+                        <option value="off">OFF</option>
+                    </select>
+
+                </div>
+
+                <div class="audio-row">
+
+                    <label for="volumeControl">
+                        Volume
+                    </label>
+
+                    <input
+                        id="volumeControl"
+                        class="volume-control"
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.35"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN DASHBOARD
+    ====================================================== -->
+
+    <div class="dashboard">
+
+        <!-- =================================================
+             GAME CARD
+        ================================================== -->
+
+        <section class="game-card">
+
+            <div class="game-header">
+
+                <div class="game-title">
+                    ✈️ Continuous Flight Simulation
+                </div>
+
+                <div class="demo-badge">
+                    DEMO / FAKE MONEY
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 FLIGHT AREA
+            ============================================== -->
+
+            <div
+                id="flightArea"
+                class="flight-area"
+            >
+
+                <!-- Stars -->
+
+                <div class="star star1"></div>
+                <div class="star star2"></div>
+                <div class="star star3"></div>
+                <div class="star star4"></div>
+                <div class="star star5"></div>
+                <div class="star star6"></div>
+                <div class="star star7"></div>
+                <div class="star star8"></div>
+                <div class="star star9"></div>
+                <div class="star star10"></div>
+
+
+                <!-- Flight path -->
+
+                <div class="flight-path"></div>
+                <div class="flight-line"></div>
+
+
+                <!-- Crash flash -->
+
+                <div
+                    id="crashFlash"
+                    class="crash-flash"
+                ></div>
+
+
+                <!-- Multiplier -->
+
+                <div class="multiplier-container">
+
+                    <div
+                        id="multiplier"
+                        class="multiplier live"
+                    >
+                        1.00x
+                    </div>
+
+                    <div
+                        id="statusText"
+                        class="status-text"
+                    >
+                        Preparing simulation...
+                    </div>
+
+                </div>
+
+
+                <!-- Plane -->
+
+                <div
+                    id="plane"
+                    class="plane"
+                    aria-label="Demo plane"
+                >
+                    ✈️
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 GAME FOOTER
+            ============================================== -->
+
+            <div class="game-footer">
+
+                <div class="live-indicator">
+
+                    <span class="live-dot"></span>
+
+                    <span id="roundIndicator">
+                        Round #1
+                    </span>
+
+                </div>
+
+                <div class="live-indicator">
+
+                    <span id="simulationIndicator">
+                        Simulation running
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             CONTROLS
+        ================================================== -->
+
+        <section class="controls-card">
+
+            <!-- Balance -->
+
+            <div class="balance-box">
+
+                <div class="balance-label">
+                    Fake Demo Balance
+                </div>
+
+                <div
+                    id="demoBalance"
+                    class="balance-value"
+                >
+                    10,000.00
+                </div>
+
+            </div>
+
+
+            <!-- Bet panel -->
+
+            <div class="bet-panel">
+
+                <div class="bet-title">
+                    🎟️ Demo Bet
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="demoStake">
+                        Fake Stake
+                    </label>
+
+                    <input
+                        id="demoStake"
+                        class="stake-input"
+                        type="number"
+                        min="1"
+                        step="1"
+                        value="100"
+                    >
+
+                </div>
+
+
+                <div class="button-row">
+
+                    <button
+                        id="placeDemoBet"
+                        class="btn btn-demo"
+                        type="button"
+                    >
+                        PLACE DEMO BET
+                    </button>
+
+                    <button
+                        id="cashOut"
+                        class="btn btn-cashout"
+                        type="button"
+                        disabled
+                    >
+                        CASH OUT
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Bet status -->
+
+            <div class="bet-status-box">
+
+                <div class="bet-status-title">
+                    Current Demo Bet
+                </div>
+
+                <div
+                    id="betStatus"
+                    class="bet-status waiting"
+                >
+                    No active demo bet
+                </div>
+
+            </div>
+
+
+            <!-- Simulation information -->
+
+            <div class="info-card">
+
+                <div class="info-title">
+                    📊 Simulation Status
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Round
+                    </span>
+
+                    <span
+                        id="roundNumber"
+                        class="info-value"
+                    >
+                        #1
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Current Multiplier
+                    </span>
+
+                    <span
+                        id="currentMultiplier"
+                        class="info-value"
+                    >
+                        1.00x
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Simulated Crash Point
+                    </span>
+
+                    <span
+                        id="crashPointDisplay"
+                        class="info-value"
+                    >
+                        Hidden
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Demo Bet
+                    </span>
+
+                    <span
+                        id="betDisplay"
+                        class="info-value"
+                    >
+                        None
+                    </span>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <span class="info-label">
+                        Keyboard
+                    </span>
+
+                    <span class="info-value">
+                        SPACE / C / M
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Educational message -->
+
+            <div class="education-note">
+
+                <strong>Educational notice:</strong>
+
+                This is a simulated crash-game environment designed
+                for public education and awareness. All balances,
+                wagers, multipliers, crashes and results are
+                fictional. No real money is accepted, stored,
+                transferred or withdrawn.
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+<script>
+/* ============================================================
+   AVIATOR EDUCATIONAL SIMULATION
+   ------------------------------------------------------------
+   ONE-FILE VERSION
+   ------------------------------------------------------------
+
+   Features:
+
+   ✓ Continuous rounds
+   ✓ Plane continuously flies
+   ✓ Random simulated crash point
+   ✓ Dynamic multiplier
+   ✓ Fake balance
+   ✓ Demo betting
+   ✓ Demo cash-out
+   ✓ Crash resolution
+   ✓ Sound effects
+   ✓ Background music
+   ✓ Volume control
+   ✓ Keyboard controls
+   ✓ No external libraries
+   ✓ No real-money functionality
+
+============================================================ */
+
+(function () {
+
+    "use strict";
+
+
+    /* ========================================================
+       DOM REFERENCES
+    ======================================================== */
+
+    const multiplierEl =
+        document.getElementById("multiplier");
+
+    const currentMultiplierEl =
+        document.getElementById("currentMultiplier");
+
+    const statusTextEl =
+        document.getElementById("statusText");
+
+    const roundIndicatorEl =
+        document.getElementById("roundIndicator");
+
+    const roundNumberEl =
+        document.getElementById("roundNumber");
+
+    const simulationIndicatorEl =
+        document.getElementById("simulationIndicator");
+
+    const demoBalanceEl =
+        document.getElementById("demoBalance");
+
+    const demoStakeEl =
+        document.getElementById("demoStake");
+
+    const placeDemoBetBtn =
+        document.getElementById("placeDemoBet");
+
+    const cashOutBtn =
+        document.getElementById("cashOut");
+
+    const betStatusEl =
+        document.getElementById("betStatus");
+
+    const betDisplayEl =
+        document.getElementById("betDisplay");
+
+    const crashPointDisplayEl =
+        document.getElementById("crashPointDisplay");
+
+    const crashFlashEl =
+        document.getElementById("crashFlash");
+
+    const audioButton =
+        document.getElementById("audioButton");
+
+    const audioPanel =
+        document.getElementById("audioPanel");
+
+    const soundSelect =
+        document.getElementById("soundSelect");
+
+    const musicSelect =
+        document.getElementById("musicSelect");
+
+    const volumeControl =
+        document.getElementById("volumeControl");
+
+
+    /* ========================================================
+       STATE
+    ======================================================== */
+
+    const state = {
+
+        round: 1,
+
+        multiplier: 1.00,
+
+        crashPoint: 2.00,
+
+        running: false,
+
+        crashed: false,
+
+        balance: 10000.00,
+
+        bet: {
+
+            active: false,
+
+            stake: 0,
+
+            startMultiplier: 1.00,
+
+            cashedOut: false,
+
+            payout: 0
+
+        },
+
+        soundEnabled: true,
+
+        musicEnabled: true,
+
+        volume: 0.35,
+
+        audioStarted: false,
+
+        musicTimer: null,
+
+        roundTimer: null,
+
+        lastTime: 0,
+
+        animationFrame: null
+
+    };
+
+
+    /* ========================================================
+       UTILITY FUNCTIONS
+    ======================================================== */
+
+    function formatMoney(value) {
+
+        return Number(value).toLocaleString(
+            "en-US",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
+
+    }
+
+
+    function clamp(value, min, max) {
+
+        return Math.max(
+            min,
+            Math.min(max, value)
+        );
+
+    }
+
+
+    /* ========================================================
+       RANDOM CRASH GENERATOR
+       -----------------------------------------------
+       This is deliberately only a fictional simulation.
+    ======================================================== */
+
+    function generateCrashPoint() {
+
+        const random =
+            Math.random();
+
+        let result;
+
+
+        if (random < 0.10) {
+
+            result =
+                1.01 +
+                Math.random() * 0.29;
+
+        }
+
+        else if (random < 0.28) {
+
+            result =
+                1.30 +
+                Math.random() * 0.70;
+
+        }
+
+        else if (random < 0.55) {
+
+            result =
+                2.00 +
+                Math.random() * 2.00;
+
+        }
+
+        else if (random < 0.78) {
+
+            result =
+                4.00 +
+                Math.random() * 4.00;
+
+        }
+
+        else if (random < 0.93) {
+
+            result =
+                8.00 +
+                Math.random() * 12.00;
+
+        }
+
+        else {
+
+            result =
+                20.00 +
+                Math.random() * 80.00;
+
+        }
+
+
+        return Number(
+            result.toFixed(2)
+        );
+
+    }
+
+
+    /* ========================================================
+       MULTIPLIER ENGINE
+    ======================================================== */
+
+    function calculateMultiplier(elapsedSeconds) {
+
+        /*
+          Smooth exponential growth.
+
+          This is purely visual simulation logic.
+        */
+
+        const growthRate = 0.085;
+
+        const value =
+            Math.pow(
+                1 + growthRate,
+                elapsedSeconds
+            );
+
+        return Number(
+            value.toFixed(2)
+        );
+
+    }
+
+
+    /* ========================================================
+       UI UPDATE
+    ======================================================== */
+
+    function updateBalance() {
+
+        demoBalanceEl.textContent =
+            formatMoney(state.balance);
+
+    }
+
+
+    function updateMultiplierUI() {
+
+        const value =
+            state.multiplier.toFixed(2) + "x";
+
+
+        multiplierEl.textContent =
+            value;
+
+        currentMultiplierEl.textContent =
+            value;
+
+    }
+
+
+    function updateRoundUI() {
+
+        roundIndicatorEl.textContent =
+            "Round #" + state.round;
+
+        roundNumberEl.textContent =
+            "#" + state.round;
+
+    }
+
+
+    function updateBetUI() {
+
+        if (!state.bet.active) {
+
+            betStatusEl.textContent =
+                "No active demo bet";
+
+            betStatusEl.className =
+                "bet-status waiting";
+
+            betDisplayEl.textContent =
+                "None";
+
+            cashOutBtn.disabled =
+                true;
+
+            return;
+
+        }
+
+
+        if (state.bet.cashedOut) {
+
+            betStatusEl.textContent =
+                "Cashed out at " +
+                state.bet.payout.multiplier.toFixed(2) +
+                "x — payout " +
+                formatMoney(state.bet.payout.amount);
+
+            betStatusEl.className =
+                "bet-status won";
+
+            betDisplayEl.textContent =
+                formatMoney(state.bet.payout.amount);
+
+            cashOutBtn.disabled =
+                true;
+
+            return;
+
+        }
+
+
+        betStatusEl.textContent =
+            "ACTIVE — " +
+            formatMoney(state.bet.stake) +
+            " fake stake @ " +
+            state.multiplier.toFixed(2) +
+            "x";
+
+        betStatusEl.className =
+            "bet-status active";
+
+        betDisplayEl.textContent =
+            formatMoney(state.bet.stake) +
+            " @ " +
+            state.multiplier.toFixed(2) +
+            "x";
+
+        cashOutBtn.disabled =
+            false;
+
+    }
+
+
+    /* ========================================================
+       AUDIO ENGINE
+    ======================================================== */
+
+    let audioContext = null;
+
+    let masterGain = null;
+
+
+    function createAudioContext() {
+
+        if (audioContext) {
+
+            return audioContext;
+
+        }
+
+
+        const AudioContextClass =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+
+        if (!AudioContextClass) {
+
+            return null;
+
+        }
+
+
+        audioContext =
+            new AudioContextClass();
+
+
+        masterGain =
+            audioContext.createGain();
+
+
+        masterGain.gain.value =
+            state.volume;
+
+
+        masterGain.connect(
+            audioContext.destination
+        );
+
+
+        return audioContext;
+
+    }
+
+
+    async function unlockAudio() {
+
+        const ctx =
+            createAudioContext();
+
+
+        if (!ctx) {
+
+            return;
+
+        }
+
+
+        if (ctx.state === "suspended") {
+
+            try {
+
+                await ctx.resume();
+
+            }
+
+            catch (error) {
+
+                console.warn(
+                    "Audio could not be resumed.",
+                    error
+                );
+
+            }
+
+        }
+
+
+        state.audioStarted = true;
+
+
+        if (state.musicEnabled) {
+
+            startBackgroundMusic();
+
+        }
+
+    }
+
+
+    function playTone(
+        frequency,
+        duration,
+        type = "sine",
+        volume = 0.08,
+        startDelay = 0
+    ) {
+
+        if (!state.soundEnabled) {
+
+            return;
+
+        }
+
+
+        const ctx =
+            createAudioContext();
+
+
+        if (!ctx || !masterGain) {
+
+            return;
+
+        }
+
+
+        const now =
+            ctx.currentTime +
+            startDelay;
+
+
+        const oscillator =
+            ctx.createOscillator();
+
+
+        const gain =
+            ctx.createGain();
+
+
+        oscillator.type =
+            type;
+
+        oscillator.frequency.setValueAtTime(
+            frequency,
+            now
+        );
+
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            now
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            Math.max(volume, 0.0002),
+            now + 0.015
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            now + duration
+        );
+
+
+        oscillator.connect(gain);
+        gain.connect(masterGain);
+
+
+        oscillator.start(now);
+
+        oscillator.stop(
+            now + duration + 0.03
+        );
+
+    }
+
+
+    /* ========================================================
+       TAKEOFF SOUND
+    ======================================================== */
+
+    function playTakeoffSound() {
+
+        if (!state.soundEnabled) {
+
+            return;
+
+        }
+
+
+        playTone(
+            180,
+            0.16,
+            "sawtooth",
+            0.07
+        );
+
+
+        playTone(
+            260,
+            0.16,
+            "sawtooth",
+            0.06,
+            0.08
+        );
+
+
+        playTone(
+            390,
+            0.20,
+            "sawtooth",
+            0.05,
+            0.16
+        );
+
+    }
+
+
+    /* ========================================================
+       MULTIPLIER TICK
+    ======================================================== */
+
+    let lastTickMultiplier = 1;
+
+
+    function playMultiplierTick() {
+
+        if (!state.soundEnabled) {
+
+            return;
+
+        }
+
+
+        const current =
+            Math.floor(
+                state.multiplier * 10
+            );
+
+
+        if (
+            current !==
+            lastTickMultiplier
+        ) {
+
+            lastTickMultiplier =
+                current;
+
+
+            playTone(
+                700 + current * 7,
+                0.045,
+                "sine",
+                0.025
+            );
+
+        }
+
+    }
+
+
+    /* ========================================================
+       CASHOUT SOUND
+    ======================================================== */
+
+    function playCashoutSound() {
+
+        if (!state.soundEnabled) {
+
+            return;
+
+        }
+
+
+        playTone(
+            620,
+            0.12,
+            "sine",
+            0.08
+        );
+
+
+        playTone(
+            820,
+            0.14,
+            "sine",
+            0.08,
+            0.08
+        );
+
+
+        playTone(
+            1080,
+            0.22,
+            "sine",
+            0.07,
+            0.16
+        );
+
+    }
+
+
+    /* ========================================================
+       CRASH SOUND
+    ======================================================== */
+
+    function playCrashSound() {
+
+        if (!state.soundEnabled) {
+
+            return;
+
+        }
+
+
+        const ctx =
+            createAudioContext();
+
+
+        if (!ctx || !masterGain) {
+
+            return;
+
+        }
+
+
+        const now =
+            ctx.currentTime;
+
+
+        const oscillator =
+            ctx.createOscillator();
+
+
+        const gain =
+            ctx.createGain();
+
+
+        oscillator.type =
+            "sawtooth";
+
+
+        oscillator.frequency.setValueAtTime(
+            170,
+            now
+        );
+
+
+        oscillator.frequency.exponentialRampToValueAtTime(
+            45,
+            now + 0.75
+        );
+
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            now
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.18,
+            now + 0.025
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            now + 0.8
+        );
+
+
+        oscillator.connect(gain);
+        gain.connect(masterGain);
+
+
+        oscillator.start(now);
+
+        oscillator.stop(
+            now + 0.85
+        );
+
+    }
+
+
+    /* ========================================================
+       BACKGROUND MUSIC
+       -----------------------------------------------
+       Original synthesized sequence.
+    ======================================================== */
+
+    const musicNotes = [
+
+        220.00,
+        261.63,
+        329.63,
+        293.66,
+
+        246.94,
+        293.66,
+        369.99,
+        329.63
+
+    ];
+
+
+    let musicIndex = 0;
+
+
+    function playMusicNote() {
+
+        if (
+            !state.musicEnabled ||
+            !state.audioStarted
+        ) {
+
+            return;
+
+        }
+
+
+        const ctx =
+            createAudioContext();
+
+
+        if (!ctx) {
+
+            return;
+
+        }
+
+
+        const frequency =
+            musicNotes[
+                musicIndex %
+                musicNotes.length
+            ];
+
+
+        musicIndex++;
+
+
+        const now =
+            ctx.currentTime;
+
+
+        const oscillator =
+            ctx.createOscillator();
+
+
+        const gain =
+            ctx.createGain();
+
+
+        oscillator.type =
+            "triangle";
+
+
+        oscillator.frequency.setValueAtTime(
+            frequency,
+            now
+        );
+
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            now
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.018,
+            now + 0.03
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            now + 0.42
+        );
+
+
+        oscillator.connect(gain);
+        gain.connect(masterGain);
+
+
+        oscillator.start(now);
+
+        oscillator.stop(
+            now + 0.45
+        );
+
+    }
+
+
+    function startBackgroundMusic() {
+
+        stopBackgroundMusic();
+
+
+        if (!state.musicEnabled) {
+
+            return;
+
+        }
+
+
+        playMusicNote();
+
+
+        state.musicTimer =
+            setInterval(
+                playMusicNote,
+                470
+            );
+
+    }
+
+
+    function stopBackgroundMusic() {
+
+        if (state.musicTimer) {
+
+            clearInterval(
+                state.musicTimer
+            );
+
+            state.musicTimer =
+                null;
+
+        }
+
+    }
+
+
+    /* ========================================================
+       AUDIO UI
+    ======================================================== */
+
+    audioButton.addEventListener(
+        "click",
+        async function (event) {
+
+            event.stopPropagation();
+
+            await unlockAudio();
+
+            audioPanel.classList.toggle(
+                "open"
+            );
+
+        }
+    );
+
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                !event.target.closest(
+                    ".audio-wrapper"
+                )
+            ) {
+
+                audioPanel.classList.remove(
+                    "open"
+                );
+
+            }
+
+        }
+    );
+
+
+    soundSelect.addEventListener(
+        "change",
+        async function () {
+
+            await unlockAudio();
+
+            state.soundEnabled =
+                soundSelect.value === "on";
+
+
+            if (state.soundEnabled) {
+
+                playTone(
+                    720,
+                    0.08,
+                    "sine",
+                    0.06
+                );
+
+            }
+
+        }
+    );
+
+
+    musicSelect.addEventListener(
+        "change",
+        async function () {
+
+            await unlockAudio();
+
+            state.musicEnabled =
+                musicSelect.value === "on";
+
+
+            if (state.musicEnabled) {
+
+                startBackgroundMusic();
+
+            }
+
+            else {
+
+                stopBackgroundMusic();
+
+            }
+
+        }
+    );
+
+
+    volumeControl.addEventListener(
+        "input",
+        function () {
+
+            state.volume =
+                Number(
+                    volumeControl.value
+                );
+
+
+            if (masterGain) {
+
+                masterGain.gain.value =
+                    state.volume;
+
+            }
+
+        }
+    );
+
+
+    /* ========================================================
+       PLACE DEMO BET
+    ======================================================== */
+
+    async function placeDemoBet() {
+
+        await unlockAudio();
+
+
+        if (state.crashed) {
+
+            return;
+
+        }
+
+
+        if (state.bet.active) {
+
+            return;
+
+        }
+
+
+        const stake =
+            Number(
+                demoStakeEl.value
+            );
+
+
+        if (
+            !Number.isFinite(stake) ||
+            stake <= 0
+        ) {
+
+            betStatusEl.textContent =
+                "Enter a valid fake stake.";
+
+            betStatusEl.className =
+                "bet-status lost";
+
+            return;
+
+        }
+
+
+        if (stake > state.balance) {
+
+            betStatusEl.textContent =
+                "Insufficient fake balance.";
+
+            betStatusEl.className =
+                "bet-status lost";
+
+            return;
+
+        }
+
+
+        /*
+          IMPORTANT:
+          This changes ONLY the fictional
+          in-browser demo balance.
+        */
+
+        state.balance -= stake;
+
+
+        state.bet = {
+
+            active: true,
+
+            stake: stake,
+
+            startMultiplier:
+                state.multiplier,
+
+            cashedOut: false,
+
+            payout: 0
+
+        };
+
+
+        updateBalance();
+        updateBetUI();
+
+
+        statusTextEl.textContent =
+            "Demo bet active";
+
+
+        playTone(
+            500,
+            0.07,
+            "sine",
+            0.05
+        );
+
+    }
+
+
+    placeDemoBetBtn.addEventListener(
+        "click",
+        placeDemoBet
+    );
+
+
+    /* ========================================================
+       DEMO CASH OUT
+    ======================================================== */
+
+    async function cashOut() {
+
+        await unlockAudio();
+
+
+        if (
+            !state.bet.active ||
+            state.bet.cashedOut ||
+            state.crashed
+        ) {
+
+            return;
+
+        }
+
+
+        const payoutAmount =
+            state.bet.stake *
+            state.multiplier;
+
+
+        state.balance +=
+            payoutAmount;
+
+
+        state.bet.cashedOut =
+            true;
+
+
+        state.bet.payout = {
+
+            amount:
+                payoutAmount,
+
+            multiplier:
+                state.multiplier
+
+        };
+
+
+        updateBalance();
+        updateBetUI();
+
+
+        statusTextEl.textContent =
+            "Demo cash-out successful";
+
+
+        playCashoutSound();
+
+    }
+
+
+    cashOutBtn.addEventListener(
+        "click",
+        cashOut
+    );
+
+
+    /* ========================================================
+       START NEW ROUND
+    ======================================================== */
+
+    function startNewRound() {
+
+        state.round++;
+
+        state.multiplier =
+            1.00;
+
+        state.crashPoint =
+            generateCrashPoint();
+
+        state.running =
+            true;
+
+        state.crashed =
+            false;
+
+        state.lastTime =
+            performance.now();
+
+
+        /*
+          Each new round begins without
+          an active previous bet.
+        */
+
+        state.bet = {
+
+            active: false,
+
+            stake: 0,
+
+            startMultiplier: 1.00,
+
+            cashedOut: false,
+
+            payout: 0
+
+        };
+
+
+        multiplierEl.classList.remove(
+            "crashed"
+        );
+
+        multiplierEl.classList.add(
+            "live"
+        );
+
+
+        statusTextEl.textContent =
+            "Plane flying — multiplier rising";
+
+
+        simulationIndicatorEl.textContent =
+            "Simulation running";
+
+
+        crashPointDisplayEl.textContent =
+            "Hidden";
+
+
+        updateRoundUI();
+        updateMultiplierUI();
+        updateBetUI();
+
+
+        /*
+          Sound is attempted only if the
+          browser has already allowed audio.
+        */
+
+        if (state.audioStarted) {
+
+            playTakeoffSound();
+
+        }
+
+    }
+
+
+    /* ========================================================
+       CRASH ROUND
+    ======================================================== */
+
+    function crashRound() {
+
+        if (state.crashed) {
+
+            return;
+
+        }
+
+
+        state.crashed =
+            true;
+
+        state.running =
+            false;
+
+
+        state.multiplier =
+            state.crashPoint;
+
+
+        multiplierEl.textContent =
+            state.crashPoint.toFixed(2) +
+            "x";
+
+
+        multiplierEl.classList.remove(
+            "live"
+        );
+
+        multiplierEl.classList.add(
+            "crashed"
+        );
+
+
+        currentMultiplierEl.textContent =
+            state.crashPoint.toFixed(2) +
+            "x";
+
+
+        statusTextEl.textContent =
+            "CRASHED at " +
+            state.crashPoint.toFixed(2) +
+            "x";
+
+
+        simulationIndicatorEl.textContent =
+            "Round ended — next round loading";
+
+
+        crashPointDisplayEl.textContent =
+            state.crashPoint.toFixed(2) +
+            "x";
+
+
+        crashFlashEl.classList.remove(
+            "active"
+        );
+
+
+        /*
+          Force browser to restart the
+          flash animation.
+        */
+
+        void crashFlashEl.offsetWidth;
+
+
+        crashFlashEl.classList.add(
+            "active"
+        );
+
+
+        /*
+          Resolve active demo bet.
+        */
+
+        if (
+            state.bet.active &&
+            !state.bet.cashedOut
+        ) {
+
+            state.bet.active =
+                false;
+
+
+            betStatusEl.textContent =
+                "DEMO BET LOST — crashed at " +
+                state.crashPoint.toFixed(2) +
+                "x";
+
+
+            betStatusEl.className =
+                "bet-status lost";
+
+
+            betDisplayEl.textContent =
+                "Lost";
+
+        }
+
+
+        cashOutBtn.disabled =
+            true;
+
+
+        playCrashSound();
+
+
+        /*
+          IMPORTANT:
+          The plane animation itself is NOT
+          stopped or removed.
+
+          The plane continues flying visually
+          while the simulation prepares the
+          next round.
+        */
+
+
+        clearTimeout(
+            state.roundTimer
+        );
+
+
+        state.roundTimer =
+            setTimeout(
+                function () {
+
+                    startNewRound();
+
+                },
+                1100
+            );
+
+    }
+
+
+    /* ========================================================
+       MAIN GAME LOOP
+    ======================================================== */
+
+    function gameLoop(timestamp) {
+
+        if (!state.running) {
+
+            state.animationFrame =
+                requestAnimationFrame(
+                    gameLoop
+                );
+
+            return;
+
+        }
+
+
+        if (!state.lastTime) {
+
+            state.lastTime =
+                timestamp;
+
+        }
+
+
+        const elapsed =
+            (
+                timestamp -
+                state.lastTime
+            ) / 1000;
+
+
+        /*
+          Calculate multiplier continuously.
+        */
+
+        const calculated =
+            calculateMultiplier(
+                elapsed
+            );
+
+
+        state.multiplier =
+            Math.max(
+                1,
+                calculated
+            );
+
+
+        /*
+          Keep display synchronized with
+          the simulated odds.
+        */
+
+        updateMultiplierUI();
+
+
+        /*
+          The active demo bet automatically
+          reflects the SAME multiplier.
+        */
+
+        if (
+            state.bet.active &&
+            !state.bet.cashedOut
+        ) {
+
+            updateBetUI();
+
+        }
+
+
+        playMultiplierTick();
+
+
+        /*
+          Check crash point.
+        */
+
+        if (
+            state.multiplier >=
+            state.crashPoint
+        ) {
+
+            crashRound();
+
+        }
+
+
+        state.animationFrame =
+            requestAnimationFrame(
+                gameLoop
+            );
+
+    }
+
+
+    /* ========================================================
+       KEYBOARD SHORTCUTS
+    ======================================================== */
+
+    document.addEventListener(
+        "keydown",
+        async function (event) {
+
+            /*
+              Don't interfere with text input.
+            */
+
+            const tag =
+                event.target.tagName
+                    .toLowerCase();
+
+
+            if (
+                tag === "input" ||
+                tag === "textarea" ||
+                tag === "select"
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+              SPACE = DEMO BET
+            */
+
+            if (
+                event.code ===
+                "Space"
+            ) {
+
+                event.preventDefault();
+
+                await placeDemoBet();
+
+            }
+
+
+            /*
+              C = CASH OUT
+            */
+
+            if (
+                event.key.toLowerCase() ===
+                "c"
+            ) {
+
+                await cashOut();
+
+            }
+
+
+            /*
+              M = TOGGLE SOUND
+            */
+
+            if (
+                event.key.toLowerCase() ===
+                "m"
+            ) {
+
+                await unlockAudio();
+
+
+                state.soundEnabled =
+                    !state.soundEnabled;
+
+
+                soundSelect.value =
+                    state.soundEnabled
+                        ? "on"
+                        : "off";
+
+
+                if (state.soundEnabled) {
+
+                    playTone(
+                        750,
+                        0.08,
+                        "sine",
+                        0.06
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* ========================================================
+       INITIALIZE
+    ======================================================== */
+
+    function initialize() {
+
+        /*
+          Initial round should be round #1,
+          not #2.
+        */
+
+        state.round = 0;
+
+
+        updateBalance();
+
+
+        /*
+          Start the first round.
+        */
+
+        startNewRound();
+
+
+        /*
+          Start the continuous game engine.
+        */
+
+        state.animationFrame =
+            requestAnimationFrame(
+                gameLoop
+            );
+
+
+        /*
+          The simulation starts automatically.
+          Audio waits for browser permission/user
+          interaction, which is normal browser policy.
+        */
+
+        setTimeout(
+            function () {
+
+                if (state.audioStarted) {
+
+                    startBackgroundMusic();
+
+                }
+
+            },
+            500
+        );
+
+    }
+
+
+    initialize();
+
+
+})();
+</script>
+
+</body>
+</html>
