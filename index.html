@@ -1,0 +1,2943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta name="description"
+content="Educational fake sportsbook and crash-game simulation. No real betting or payments.">
+
+<title>OddsLab — Scam Awareness Simulation</title>
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#0c1621;
+    --bg2:#111e2b;
+    --panel:#172634;
+    --panel2:#203342;
+    --panel3:#263c4d;
+    --line:#2d4353;
+
+    --text:#f4f7fa;
+    --muted:#8b9baa;
+
+    --green:#69b51b;
+    --green2:#8bd52b;
+
+    --yellow:#ffd400;
+    --red:#ff4f55;
+    --orange:#ff9f43;
+
+    --shadow:0 15px 50px rgba(0,0,0,.45);
+}
+
+html,
+body{
+    min-height:100%;
+    background:var(--bg);
+    color:var(--text);
+    font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+button,
+input{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+/* =========================================================
+   PERMANENT EDUCATIONAL WARNING
+========================================================= */
+
+.fake-ribbon{
+    position:fixed;
+    top:0;
+    right:0;
+    z-index:99999;
+
+    background:#e53935;
+    color:#fff;
+
+    font-size:11px;
+    font-weight:900;
+
+    padding:7px 16px;
+
+    letter-spacing:.7px;
+
+    box-shadow:0 3px 15px #0008;
+}
+
+/* =========================================================
+   INTRO WARNING
+========================================================= */
+
+.intro{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #253a4b,
+            #07101a 70%
+        );
+}
+
+.intro-card{
+    width:min(680px,100%);
+
+    background:#142331;
+
+    border:2px solid var(--yellow);
+
+    border-radius:18px;
+
+    padding:40px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+}
+
+.intro-icon{
+    font-size:65px;
+    margin-bottom:15px;
+}
+
+.intro-card h1{
+    font-size:34px;
+    margin-bottom:15px;
+}
+
+.intro-card h1 span{
+    color:var(--yellow);
+}
+
+.intro-card p{
+    color:#c5d0d9;
+    line-height:1.6;
+    margin-bottom:18px;
+}
+
+.intro-card ul{
+    text-align:left;
+    margin:20px auto;
+    max-width:520px;
+    color:#b9c5cf;
+    line-height:1.7;
+}
+
+.demo-button{
+    background:var(--green2);
+    border:0;
+    border-radius:8px;
+
+    color:#fff;
+
+    font-weight:900;
+
+    padding:13px 28px;
+
+    font-size:15px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+    height:66px;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 18px;
+
+    gap:25px;
+
+    background:#101a25;
+
+    border-bottom:1px solid var(--line);
+
+    position:sticky;
+    top:0;
+
+    z-index:500;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+
+    gap:8px;
+
+    min-width:190px;
+
+    font-size:23px;
+    font-weight:1000;
+}
+
+.logo-box{
+    width:36px;
+    height:36px;
+
+    display:grid;
+    place-items:center;
+
+    background:var(--yellow);
+
+    color:#17212b;
+
+    border-radius:7px;
+
+    font-size:13px;
+}
+
+.logo small{
+    color:var(--yellow);
+    font-size:10px;
+}
+
+.nav{
+    display:flex;
+    gap:18px;
+
+    overflow-x:auto;
+
+    flex:1;
+}
+
+.nav button{
+    border:0;
+
+    background:none;
+
+    color:#adb9c4;
+
+    padding:22px 0;
+
+    white-space:nowrap;
+
+    font-size:14px;
+}
+
+.nav button.active{
+    color:#8ed129;
+
+    border-bottom:3px solid var(--green);
+}
+
+.header-actions{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.header-actions button{
+    background:transparent;
+    color:#dce4ea;
+
+    border:0;
+
+    padding:9px;
+}
+
+.deposit{
+    background:var(--yellow)!important;
+
+    color:#17212b!important;
+
+    font-weight:900;
+
+    border-radius:8px;
+
+    padding:10px 19px!important;
+}
+
+/* =========================================================
+   WARNING TICKER
+========================================================= */
+
+.ticker{
+    height:34px;
+
+    background:#080f17;
+
+    border-bottom:1px solid #283a49;
+
+    overflow:hidden;
+
+    display:flex;
+    align-items:center;
+
+    white-space:nowrap;
+}
+
+.ticker-label{
+    background:#7d1e24;
+
+    color:white;
+
+    font-size:11px;
+
+    font-weight:1000;
+
+    padding:9px 15px;
+
+    z-index:2;
+}
+
+.ticker-content{
+    color:#ffd400;
+
+    font-size:12px;
+
+    font-weight:900;
+
+    padding-left:30px;
+
+    animation:
+        tickerMove
+        25s
+        linear
+        infinite;
+}
+
+@keyframes tickerMove{
+
+    from{
+        transform:translateX(0);
+    }
+
+    to{
+        transform:translateX(-60%);
+    }
+}
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.layout{
+    display:grid;
+
+    grid-template-columns:220px minmax(500px,1fr) 350px;
+
+    min-height:calc(100vh - 100px);
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+    border-right:1px solid var(--line);
+
+    padding:14px 10px;
+
+    background:#101c28;
+
+    overflow-y:auto;
+}
+
+.sidebar-title{
+    font-weight:900;
+
+    padding:10px 12px 14px;
+}
+
+.sport{
+    display:block;
+
+    width:100%;
+
+    background:none;
+
+    border:0;
+
+    color:#8798a8;
+
+    text-align:left;
+
+    padding:11px 12px;
+
+    border-radius:7px;
+
+    transition:.15s;
+}
+
+.sport:hover,
+.sport.active{
+    background:#203442;
+
+    color:white;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+    min-width:0;
+
+    padding:0 18px 40px;
+}
+
+.tabs{
+    display:flex;
+
+    gap:24px;
+
+    height:57px;
+
+    align-items:end;
+
+    border-bottom:1px solid var(--line);
+
+    overflow-x:auto;
+}
+
+.tabs button{
+    background:none;
+
+    border:0;
+
+    color:#aab7c2;
+
+    padding:0 0 15px;
+
+    font-weight:800;
+
+    white-space:nowrap;
+}
+
+.tabs button.active{
+    color:white;
+
+    border-bottom:3px solid var(--green2);
+}
+
+.controls{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 0;
+}
+
+.controls button{
+    border:0;
+
+    background:#223543;
+
+    color:#e8edf1;
+
+    border-radius:18px;
+
+    padding:8px 13px;
+
+    margin-right:5px;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero{
+    min-height:170px;
+
+    border-radius:4px;
+
+    background:
+        linear-gradient(
+            110deg,
+            #b8df00,
+            #eaf524,
+            #66b817
+        );
+
+    color:#16212b;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    overflow:hidden;
+
+    margin-bottom:18px;
+}
+
+.hero-content{
+    padding:24px 30px;
+
+    max-width:76%;
+}
+
+.hero-content h2{
+    font-size:25px;
+
+    margin:10px 0;
+}
+
+.hero-content p{
+    font-size:13px;
+
+    max-width:650px;
+
+    line-height:1.5;
+
+    margin-bottom:15px;
+}
+
+.hero-tag{
+    background:#252f36;
+
+    color:#ffd400;
+
+    padding:5px 8px;
+
+    font-size:10px;
+
+    font-weight:1000;
+
+    border-radius:4px;
+}
+
+.hero-icon{
+    min-width:180px;
+
+    display:grid;
+
+    place-items:center;
+
+    font-size:80px;
+
+    transform:rotate(-5deg);
+}
+
+/* =========================================================
+   MATCHES
+========================================================= */
+
+.matches-header{
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        110px
+        110px
+        110px;
+
+    gap:4px;
+
+    padding:0 8px 9px;
+
+    font-size:13px;
+
+    font-weight:900;
+}
+
+.match{
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        110px
+        110px
+        110px;
+
+    gap:4px;
+
+    padding:13px 8px;
+
+    border-bottom:1px solid #253744;
+}
+
+.league{
+    color:#aebbc5;
+
+    font-size:12px;
+
+    margin-bottom:7px;
+}
+
+.match-time{
+    float:right;
+
+    color:#c7d0d7;
+
+    font-size:11px;
+}
+
+.teams{
+    font-weight:900;
+
+    line-height:1.45;
+}
+
+.market-count{
+    color:#66be18;
+
+    font-size:11px;
+
+    margin-top:7px;
+}
+
+.odds{
+    align-self:center;
+
+    border:0;
+
+    background:#243745;
+
+    color:white;
+
+    border-radius:19px;
+
+    padding:10px;
+
+    font-weight:1000;
+
+    transition:.12s;
+}
+
+.odds:hover{
+    background:#3a5364;
+
+    transform:translateY(-1px);
+}
+
+/* =========================================================
+   RIGHT PANEL
+========================================================= */
+
+.right{
+    border-left:1px solid var(--line);
+
+    background:#111d29;
+}
+
+.right-tabs{
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1.3fr
+        1fr;
+
+    border-bottom:1px solid var(--line);
+}
+
+.right-tabs button{
+    border:0;
+
+    background:none;
+
+    color:#aebbc5;
+
+    padding:15px 5px;
+
+    font-weight:900;
+}
+
+.right-tabs button.active{
+    color:white;
+
+    border-bottom:3px solid var(--green);
+}
+
+.betslip{
+    padding:20px;
+}
+
+.betslip h3{
+    margin-bottom:5px;
+}
+
+.muted{
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+.selection{
+    margin-top:16px;
+
+    min-height:80px;
+
+    padding:13px;
+
+    border-radius:8px;
+
+    background:#1d2e3c;
+}
+
+.selection.empty{
+    display:grid;
+
+    place-items:center;
+
+    text-align:center;
+
+    color:#8c9ba8;
+
+    font-size:12px;
+}
+
+.remove{
+    background:none;
+
+    border:0;
+
+    color:#ff7070;
+
+    margin-top:9px;
+
+    font-size:11px;
+}
+
+.stake{
+    width:100%;
+
+    padding:12px;
+
+    margin:12px 0;
+
+    background:#172633;
+
+    color:white;
+
+    border:1px solid #405364;
+
+    border-radius:7px;
+}
+
+.green-button{
+    width:100%;
+
+    padding:12px;
+
+    background:var(--green);
+
+    color:white;
+
+    border:0;
+
+    border-radius:7px;
+
+    font-weight:900;
+}
+
+.safety-box{
+    margin-top:20px;
+
+    padding:13px;
+
+    border:1px solid #3c5626;
+
+    background:#17251b;
+
+    border-radius:8px;
+
+    font-size:12px;
+
+    line-height:1.5;
+}
+
+/* =========================================================
+   AVIATOR SECTION
+========================================================= */
+
+.aviator{
+    margin-top:25px;
+
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            #203d55,
+            #0a141f 70%
+        );
+
+    border:1px solid #314b60;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+}
+
+.aviator-header{
+    padding:14px 17px;
+
+    background:#101d2a;
+
+    border-bottom:1px solid #2c4353;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.aviator-title{
+    font-weight:1000;
+
+    letter-spacing:.5px;
+}
+
+.fake-label{
+    color:#ffd400;
+
+    font-size:10px;
+
+    font-weight:1000;
+}
+
+.flight-area{
+    position:relative;
+
+    height:340px;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            #21405b 0,
+            transparent 35%
+        ),
+        linear-gradient(
+            180deg,
+            #12283a,
+            #08131e
+        );
+}
+
+/* grid */
+
+.flight-area::before{
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    opacity:.25;
+
+    background-image:
+        linear-gradient(#52738b 1px,transparent 1px),
+        linear-gradient(90deg,#52738b 1px,transparent 1px);
+
+    background-size:55px 55px;
+
+    transform:
+        perspective(300px)
+        rotateX(55deg)
+        scale(1.8);
+
+    transform-origin:center bottom;
+}
+
+.multiplier{
+    position:absolute;
+
+    left:50%;
+    top:45%;
+
+    transform:translate(-50%,-50%);
+
+    font-size:66px;
+
+    font-weight:1000;
+
+    z-index:10;
+
+    text-shadow:0 4px 20px #000b;
+
+    letter-spacing:-3px;
+}
+
+.flight-status{
+    position:absolute;
+
+    left:50%;
+    top:65%;
+
+    transform:translateX(-50%);
+
+    z-index:10;
+
+    color:#8fa2b0;
+
+    font-size:12px;
+}
+
+.plane{
+    position:absolute;
+
+    left:5%;
+
+    bottom:12%;
+
+    z-index:8;
+
+    font-size:50px;
+
+    filter:
+        drop-shadow(0 10px 20px #0008);
+
+    transform:rotate(-12deg);
+}
+
+.flight-line{
+    position:absolute;
+
+    width:800px;
+
+    height:500px;
+
+    left:-300px;
+
+    bottom:-390px;
+
+    border-radius:50%;
+
+    border-top:
+        5px solid
+        #ff5960;
+
+    border-right:
+        5px solid
+        #ff5960;
+
+    transform:rotate(-14deg);
+
+    opacity:.7;
+
+    z-index:5;
+}
+
+.aviator-controls{
+    padding:15px;
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:12px;
+
+    background:#121f2b;
+}
+
+.bet-box{
+    background:#1d2e3d;
+
+    border-radius:9px;
+
+    padding:12px;
+}
+
+.bet-box label{
+    color:#94a4b1;
+
+    font-size:11px;
+
+    display:block;
+
+    margin-bottom:7px;
+}
+
+.bet-input{
+    width:100%;
+
+    padding:10px;
+
+    background:#101b25;
+
+    color:white;
+
+    border:1px solid #405363;
+
+    border-radius:6px;
+}
+
+.aviator-button{
+    width:100%;
+
+    border:0;
+
+    border-radius:8px;
+
+    margin-top:9px;
+
+    padding:11px;
+
+    font-weight:1000;
+
+    color:white;
+
+    background:#2b9e45;
+}
+
+.aviator-button.cash{
+    background:#e65c35;
+}
+
+.aviator-button:disabled{
+    opacity:.35;
+
+    cursor:not-allowed;
+}
+
+.game-log{
+    max-height:110px;
+
+    overflow:auto;
+
+    border-top:1px solid #263c4c;
+
+    padding:8px 14px;
+
+    font-size:11px;
+
+    color:#9cacb8;
+}
+
+.game-log div{
+    padding:5px 0;
+
+    border-bottom:1px solid #20313e;
+}
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    z-index:10000;
+
+    background:#000b;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+}
+
+.modal.hidden{
+    display:none;
+}
+
+.modal-card{
+    width:min(600px,100%);
+
+    background:#172635;
+
+    border:1px solid #405364;
+
+    border-radius:14px;
+
+    padding:30px;
+
+    box-shadow:var(--shadow);
+
+    position:relative;
+}
+
+.modal-card.large{
+    width:min(850px,100%);
+}
+
+.close{
+    position:absolute;
+
+    right:15px;
+    top:9px;
+
+    background:none;
+
+    border:0;
+
+    color:#dce3e8;
+
+    font-size:28px;
+}
+
+.modal-card h2{
+    margin:12px 0;
+}
+
+.form-group{
+    margin:15px 0;
+}
+
+.form-group label{
+    display:block;
+
+    color:#dce5ea;
+
+    font-size:12px;
+
+    font-weight:800;
+
+    margin-bottom:7px;
+}
+
+.form-group input{
+    width:100%;
+
+    padding:12px;
+
+    background:#101a23;
+
+    color:white;
+
+    border:1px solid #405364;
+
+    border-radius:7px;
+}
+
+.modal-note{
+    color:#94a4b0;
+
+    font-size:11px;
+
+    line-height:1.5;
+
+    margin-top:15px;
+}
+
+.flags{
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:12px;
+}
+
+.flag{
+    background:#1e303f;
+
+    padding:14px;
+
+    border-radius:9px;
+}
+
+.flag strong{
+    color:#ffd43b;
+}
+
+.flag p{
+    color:#afbdc7;
+
+    font-size:12px;
+
+    line-height:1.5;
+
+    margin-top:7px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+    position:fixed;
+
+    left:50%;
+    bottom:25px;
+
+    transform:
+        translate(-50%,30px);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    z-index:99999;
+
+    background:#09121b;
+
+    border:1px solid #4c6070;
+
+    padding:13px 19px;
+
+    border-radius:9px;
+
+    font-size:13px;
+
+    transition:.25s;
+}
+
+.toast.show{
+    opacity:1;
+
+    transform:
+        translate(-50%,0);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1150px){
+
+    .layout{
+        grid-template-columns:
+            190px
+            1fr;
+    }
+
+    .right{
+        display:none;
+    }
+
+}
+
+@media(max-width:760px){
+
+    .header{
+        flex-wrap:wrap;
+
+        height:auto;
+
+        padding:8px;
+    }
+
+    .nav{
+        order:3;
+
+        flex-basis:100%;
+    }
+
+    .sidebar{
+        display:none;
+    }
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .content{
+        padding:0 10px 30px;
+    }
+
+    .matches-header,
+    .match{
+        grid-template-columns:
+            1fr
+            70px
+            70px
+            70px;
+    }
+
+    .hero-content{
+        max-width:100%;
+    }
+
+    .hero-icon{
+        display:none;
+    }
+
+    .aviator-controls{
+        grid-template-columns:1fr;
+    }
+
+    .flags{
+        grid-template-columns:1fr;
+    }
+
+    .multiplier{
+        font-size:48px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     PERMANENT DEMO LABEL
+===================================================== -->
+
+<div class="fake-ribbon">
+    ⚠️ FAKE EDUCATIONAL DEMO — NO REAL MONEY
+</div>
+
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
+<div class="intro" id="intro">
+
+    <div class="intro-card">
+
+        <div class="intro-icon">
+            ⚠️🤣
+        </div>
+
+        <h1>
+            Hey Careful Bro,
+            <span>This Is Fake!</span>
+        </h1>
+
+        <p>
+            This is a deliberately simulated sportsbook designed
+            for public scam-awareness education.
+        </p>
+
+        <ul>
+            <li>There is no real betting.</li>
+            <li>There are no real deposits or withdrawals.</li>
+            <li>All balances are fictional demo credits.</li>
+            <li>Do not enter real passwords, OTPs, PINs or card details.</li>
+            <li>The login is processed only inside this browser.</li>
+        </ul>
+
+        <button
+            class="demo-button"
+            id="enterDemo"
+        >
+            ENTER EDUCATIONAL DEMO
+        </button>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+    <div class="logo">
+
+        <div class="logo-box">
+            OL
+        </div>
+
+        <div>
+            OddsLab
+            <small>.demo</small>
+        </div>
+
+    </div>
+
+    <nav class="nav">
+
+        <button class="active">
+            Home
+        </button>
+
+        <button>
+            Live <b id="liveCount">136</b>
+        </button>
+
+        <button>
+            Jackpots
+        </button>
+
+        <button>
+            Shikisha Bet
+        </button>
+
+        <button>
+            Aviator
+        </button>
+
+        <button>
+            Casino
+        </button>
+
+        <button>
+            Promotions
+        </button>
+
+        <button>
+            Virtuals
+        </button>
+
+        <button>
+            Crash Games
+        </button>
+
+        <button>
+            Live Score
+        </button>
+
+    </nav>
+
+    <div class="header-actions">
+
+        <button>
+            🔔 Notifications
+        </button>
+
+        <button id="profileButton">
+            ♙ Profile
+        </button>
+
+        <button class="deposit" id="depositButton">
+            Deposit
+        </button>
+
+    </div>
+
+</header>
+
+<!-- =====================================================
+     TICKER
+===================================================== -->
+
+<div class="ticker">
+
+    <div class="ticker-label">
+        PUBLIC AWARENESS
+    </div>
+
+    <div class="ticker-content">
+
+        HEY CAREFUL BRO, THIS IS FAKE 🤣😟
+        •
+        NEVER TRUST A RANDOM BETTING LINK
+        •
+        NEVER SHARE YOUR OTP
+        •
+        NEVER GIVE A SITE YOUR MOBILE MONEY PIN
+        •
+        VERIFY THE DOMAIN
+        •
+        HEY CAREFUL BRO, THIS IS FAKE 🤣😟
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     MAIN LAYOUT
+===================================================== -->
+
+<div class="layout">
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-title">
+        Sports
+    </div>
+
+    <button class="sport active">⚽ Soccer</button>
+    <button class="sport">🏓 Table Tennis</button>
+    <button class="sport">🥊 Boxing</button>
+    <button class="sport">⚾ Baseball</button>
+    <button class="sport">🏒 Ice Hockey</button>
+    <button class="sport">🏈 American Football</button>
+    <button class="sport">🏉 Rugby</button>
+    <button class="sport">🤾 Handball</button>
+    <button class="sport">🎮 eSoccer</button>
+    <button class="sport">🏀 Basketball</button>
+    <button class="sport">🏏 Cricket</button>
+    <button class="sport">🥅 Futsal</button>
+    <button class="sport">🎯 Darts</button>
+    <button class="sport">🏐 Volleyball</button>
+    <button class="sport">🎾 Tennis</button>
+    <button class="sport">🏖️ Beach Volleyball</button>
+    <button class="sport">💻 eSports</button>
+
+</aside>
+
+<!-- =====================================================
+     CENTRAL CONTENT
+===================================================== -->
+
+<main class="content">
+
+    <div class="tabs">
+
+        <button class="active">
+            Highlights
+        </button>
+
+        <button>
+            Upcoming
+        </button>
+
+        <button>
+            Countries
+        </button>
+
+        <button>
+            Zoom Soccer
+        </button>
+
+        <button>
+            Jackpots
+        </button>
+
+        <button>
+            Turbo
+        </button>
+
+    </div>
+
+    <div class="controls">
+
+        <div>
+            <button>
+                ⚙ Filters ▾
+            </button>
+        </div>
+
+        <div>
+            <button>Today ▾</button>
+            <button>Highlights ▾</button>
+            <button>1 × 2 ▾</button>
+        </div>
+
+    </div>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="hero-tag">
+                TRAINING SIMULATION
+            </span>
+
+            <h2>
+                Would you trust this page with your money?
+            </h2>
+
+            <p>
+                A professional-looking interface can be created
+                with ordinary web technologies. Visual appearance
+                alone does not prove that a betting operator is legitimate.
+            </p>
+
+            <button
+                class="demo-button"
+                id="learnButton"
+            >
+                🔎 Learn the red flags
+            </button>
+
+        </div>
+
+        <div class="hero-icon">
+            💳
+        </div>
+
+    </section>
+
+    <!-- MATCHES -->
+
+    <div class="matches-header">
+
+        <span>Teams</span>
+
+        <span>1</span>
+        <span>X</span>
+        <span>2</span>
+
+    </div>
+
+    <div id="matches"></div>
+
+    <!-- =================================================
+         FAKE AVIATOR
+    ================================================== -->
+
+    <section class="aviator">
+
+        <div class="aviator-header">
+
+            <div class="aviator-title">
+                ✈️ AVIATOR
+            </div>
+
+            <div class="fake-label">
+                SIMULATION ONLY
+            </div>
+
+        </div>
+
+        <div class="flight-area">
+
+            <div
+                class="flight-line"
+                id="flightLine"
+            ></div>
+
+            <div
+                class="plane"
+                id="plane"
+            >
+                ✈️
+            </div>
+
+            <div
+                class="multiplier"
+                id="multiplier"
+            >
+                1.00x
+            </div>
+
+            <div
+                class="flight-status"
+                id="flightStatus"
+            >
+                WAITING FOR DEMO ROUND
+            </div>
+
+        </div>
+
+        <div class="aviator-controls">
+
+            <!-- PLAYER 1 -->
+
+            <div class="bet-box">
+
+                <label>
+                    DEMO STAKE — PLAYER 1
+                </label>
+
+                <input
+                    class="bet-input"
+                    id="aviatorStake"
+                    type="number"
+                    min="1"
+                    max="100000"
+                    value="100"
+                >
+
+                <button
+                    class="aviator-button"
+                    id="startRound"
+                >
+                    PLACE DEMO BET
+                </button>
+
+            </div>
+
+            <!-- CASH OUT -->
+
+            <div class="bet-box">
+
+                <label>
+                    DEMO VIRTUAL BALANCE
+                </label>
+
+                <div
+                    style="
+                    font-size:25px;
+                    font-weight:1000;
+                    margin-bottom:8px;
+                    "
+                >
+                    KSh
+                    <span id="balance">
+                        10,000
+                    </span>
+                </div>
+
+                <button
+                    class="aviator-button cash"
+                    id="cashOut"
+                    disabled
+                >
+                    CASH OUT
+                </button>
+
+            </div>
+
+        </div>
+
+        <div
+            class="game-log"
+            id="gameLog"
+        >
+            <div>
+                Demo history will appear here.
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<!-- =====================================================
+     RIGHT BETSLIP
+===================================================== -->
+
+<aside class="right">
+
+    <div class="right-tabs">
+
+        <button class="active">
+            Normal (<span id="selectionCount">0</span>)
+        </button>
+
+        <button>
+            Shikisha Bet (0)
+        </button>
+
+        <button>
+            Virtuals (0)
+        </button>
+
+    </div>
+
+    <div class="betslip">
+
+        <h3>
+            Demo Betslip
+        </h3>
+
+        <div class="muted">
+            This is not connected to real betting.
+        </div>
+
+        <div
+            class="selection empty"
+            id="selection"
+        >
+            Click an odds button to add a simulated selection.
+        </div>
+
+        <input
+            class="stake"
+            id="stake"
+            type="number"
+            min="1"
+            value="100"
+            placeholder="Demo stake"
+        >
+
+        <button
+            class="green-button"
+            id="placeBet"
+        >
+            PLACE SIMULATED BET
+        </button>
+
+        <div class="safety-box">
+
+            <strong>
+                🛡️ Safety check
+            </strong>
+
+            <p>
+                This simulation cannot process money,
+                withdrawals, deposits or real wagers.
+            </p>
+
+        </div>
+
+    </div>
+
+</aside>
+
+</div>
+
+<!-- =====================================================
+     LOGIN MODAL
+===================================================== -->
+
+<div
+    class="modal hidden"
+    id="loginModal"
+>
+
+    <div class="modal-card">
+
+        <button
+            class="close"
+            data-close="loginModal"
+        >
+            ×
+        </button>
+
+        <h2>
+            Anonymous Demo Login
+        </h2>
+
+        <p class="muted">
+            Use fictional information only.
+            This form does not send data to a server.
+        </p>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+
+                <label>
+                    Demo email
+                </label>
+
+                <input
+                    type="email"
+                    id="demoEmail"
+                    placeholder="demo@example.invalid"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>
+                    Demo username
+                </label>
+
+                <input
+                    type="text"
+                    id="demoUsername"
+                    placeholder="DemoPlayer"
+                    minlength="2"
+                    maxlength="30"
+                    required
+                >
+
+            </div>
+
+            <button
+                class="green-button"
+                type="submit"
+            >
+                ENTER DEMO
+            </button>
+
+        </form>
+
+        <p class="modal-note">
+
+            ⚠️ Never enter your real password, OTP,
+            mobile-money PIN, card number or identity
+            information into an unfamiliar betting website.
+
+        </p>
+
+        <p
+            id="loginResult"
+            style="
+            color:#8bd52b;
+            margin-top:15px;
+            font-size:12px;
+            "
+        ></p>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     SCAM CHECKLIST MODAL
+===================================================== -->
+
+<div
+    class="modal hidden"
+    id="learnModal"
+>
+
+    <div class="modal-card large">
+
+        <button
+            class="close"
+            data-close="learnModal"
+        >
+            ×
+        </button>
+
+        <h2>
+            🔎 Scam-awareness checklist
+        </h2>
+
+        <div class="flags">
+
+            <div class="flag">
+
+                <strong>
+                    1. Check the domain
+                </strong>
+
+                <p>
+                    Look carefully at the spelling of the domain.
+                    Don't assume a familiar logo means you're
+                    visiting the legitimate company.
+                </p>
+
+            </div>
+
+            <div class="flag">
+
+                <strong>
+                    2. Beware of urgency
+                </strong>
+
+                <p>
+                    "Deposit now", "guaranteed win" and
+                    "account expires today" messages can be
+                    designed to prevent careful verification.
+                </p>
+
+            </div>
+
+            <div class="flag">
+
+                <strong>
+                    3. Never disclose PINs
+                </strong>
+
+                <p>
+                    A suspicious site asking for a mobile-money
+                    PIN, OTP or banking credential should immediately
+                    stop the transaction.
+                </p>
+
+            </div>
+
+            <div class="flag">
+
+                <strong>
+                    4. Don't trust screenshots
+                </strong>
+
+                <p>
+                    Balances, winning notifications,
+                    testimonials and transaction histories
+                    can all be fabricated with JavaScript.
+                </p>
+
+            </div>
+
+            <div class="flag">
+
+                <strong>
+                    5. Verify independently
+                </strong>
+
+                <p>
+                    Find the operator independently rather than
+                    relying on links supplied by an advert,
+                    WhatsApp message or social-media account.
+                </p>
+
+            </div>
+
+            <div class="flag">
+
+                <strong>
+                    6. A balance isn't proof
+                </strong>
+
+                <p>
+                    A number displayed on a webpage is not evidence
+                    that money actually exists in a regulated
+                    financial account.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+<script>
+
+/* =========================================================
+   FAKE SPORTS DATA
+========================================================= */
+
+const matches = [
+
+    {
+        league:"England • Premier League",
+        home:"Leeds",
+        away:"Crystal Palace",
+        odds:["1.77","4.00","4.60"],
+        time:"20/09, 16:00",
+        markets:"+84 Markets"
+    },
+
+    {
+        league:"England • Premier League",
+        home:"Bournemouth",
+        away:"Liverpool",
+        odds:["3.10","3.85","2.23"],
+        time:"20/09, 16:00",
+        markets:"+84 Markets"
+    },
+
+    {
+        league:"England • Premier League",
+        home:"Man City",
+        away:"Sunderland",
+        odds:["1.35","5.60","8.60"],
+        time:"20/09, 16:00",
+        markets:"+83 Markets"
+    },
+
+    {
+        league:"England • Premier League",
+        home:"Fulham",
+        away:"Man Utd",
+        odds:["3.40","3.80","2.11"],
+        time:"20/09, 18:30",
+        markets:"+84 Markets"
+    },
+
+    {
+        league:"Spain • La Liga",
+        home:"Real Sociedad",
+        away:"Sevilla",
+        odds:["2.05","3.25","3.70"],
+        time:"20/09, 20:00",
+        markets:"+79 Markets"
+    },
+
+    {
+        league:"Italy • Serie A",
+        home:"Roma",
+        away:"Torino",
+        odds:["1.92","3.50","4.10"],
+        time:"20/09, 21:45",
+        markets:"+81 Markets"
+    }
+
+];
+
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
+
+const $ = selector =>
+    document.querySelector(selector);
+
+const $$ = selector =>
+    [...document.querySelectorAll(selector)];
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function toast(message){
+
+    const element = $("#toast");
+
+    element.textContent = message;
+
+    element.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+
+        element.classList.remove("show");
+
+    },2800);
+
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+$("#enterDemo").onclick = () => {
+
+    $("#intro").style.display = "none";
+
+    toast(
+        "Educational simulation loaded. No real money is involved."
+    );
+
+};
+
+
+/* =========================================================
+   RENDER SPORTS
+========================================================= */
+
+function renderMatches(){
+
+    $("#matches").innerHTML = matches.map(
+        (match,index) => {
+
+            return `
+
+            <article class="match">
+
+                <div>
+
+                    <div class="league">
+
+                        ⚽ ${match.league}
+
+                        <span class="match-time">
+                            ${match.time}
+                        </span>
+
+                    </div>
+
+                    <div class="teams">
+
+                        ${match.home}
+                        <br>
+                        ${match.away}
+
+                    </div>
+
+                    <div class="market-count">
+
+                        ${match.markets}
+
+                    </div>
+
+                </div>
+
+                ${match.odds.map(
+                    (odd,outcome) => `
+
+                    <button
+                        class="odds"
+                        data-match="${index}"
+                        data-outcome="${outcome}"
+                    >
+                        ${odd}
+                    </button>
+
+                    `
+                ).join("")}
+
+            </article>
+
+            `;
+
+        }
+    ).join("");
+
+}
+
+renderMatches();
+
+
+/* =========================================================
+   SPORTS BETSLIP
+========================================================= */
+
+let selectedBet = null;
+
+document.addEventListener(
+    "click",
+    event => {
+
+        const button =
+            event.target.closest(".odds");
+
+        if(!button)
+            return;
+
+        const match =
+            matches[
+                Number(button.dataset.match)
+            ];
+
+        const outcome =
+            Number(button.dataset.outcome);
+
+        selectedBet = {
+
+            home:match.home,
+
+            away:match.away,
+
+            odds:match.odds[outcome],
+
+            outcome:[
+                "Home win",
+                "Draw",
+                "Away win"
+            ][outcome]
+
+        };
+
+        updateSelection();
+
+        toast(
+            "Added to simulated betslip."
+        );
+
+    }
+);
+
+
+function updateSelection(){
+
+    const box =
+        $("#selection");
+
+    if(!selectedBet){
+
+        box.className =
+            "selection empty";
+
+        box.textContent =
+            "Click an odds button to add a simulated selection.";
+
+        $("#selectionCount").textContent =
+            "0";
+
+        return;
+
+    }
+
+    box.className =
+        "selection";
+
+    box.innerHTML = `
+
+        <strong>
+            ${selectedBet.home}
+            vs
+            ${selectedBet.away}
+        </strong>
+
+        <div
+            style="
+            color:#9bd85c;
+            margin-top:7px;
+            font-size:12px;
+            "
+        >
+            ${selectedBet.outcome}
+            @
+            <b>${selectedBet.odds}</b>
+        </div>
+
+        <button
+            class="remove"
+            id="removeBet"
+        >
+            Remove
+        </button>
+
+    `;
+
+    $("#selectionCount").textContent =
+        "1";
+
+    $("#removeBet").onclick = () => {
+
+        selectedBet = null;
+
+        updateSelection();
+
+    };
+
+}
+
+
+/* =========================================================
+   FAKE SPORTS BET
+========================================================= */
+
+$("#placeBet").onclick = () => {
+
+    if(!selectedBet){
+
+        toast(
+            "Select a simulated match first."
+        );
+
+        return;
+
+    }
+
+    const stake =
+        Number($("#stake").value);
+
+    if(!stake || stake <= 0){
+
+        toast(
+            "Enter a demo stake."
+        );
+
+        return;
+
+    }
+
+    toast(
+        `SIMULATION ONLY: KSh ${stake.toLocaleString()} was not wagered.`
+    );
+
+};
+
+
+/* =========================================================
+   PROFILE / LOGIN
+========================================================= */
+
+$("#profileButton").onclick = () => {
+
+    $("#loginModal")
+        .classList
+        .remove("hidden");
+
+};
+
+
+$("#loginForm").onsubmit = event => {
+
+    event.preventDefault();
+
+    const email =
+        $("#demoEmail").value.trim();
+
+    const username =
+        $("#demoUsername").value.trim();
+
+    /*
+       IMPORTANT:
+
+       These values are intentionally NOT:
+
+       - sent with fetch()
+       - sent with XMLHttpRequest
+       - written to localStorage
+       - written to sessionStorage
+       - placed in cookies
+       - sent to a backend
+
+       They exist only for this browser event.
+    */
+
+    $("#loginResult").textContent =
+
+        `Demo session created for ${username}.
+         The supplied email was not transmitted or stored.`;
+
+    toast(
+        "Anonymous educational session started."
+    );
+
+};
+
+
+/* =========================================================
+   DEPOSIT BUTTON
+========================================================= */
+
+$("#depositButton").onclick = () => {
+
+    toast(
+        "DEMO ONLY: payment functionality is disabled."
+    );
+
+};
+
+
+/* =========================================================
+   LEARNING MODAL
+========================================================= */
+
+$("#learnButton").onclick = () => {
+
+    $("#learnModal")
+        .classList
+        .remove("hidden");
+
+};
+
+
+/* =========================================================
+   MODAL CLOSE
+========================================================= */
+
+$$("[data-close]").forEach(button => {
+
+    button.onclick = () => {
+
+        const modal =
+            document.getElementById(
+                button.dataset.close
+            );
+
+        modal.classList.add("hidden");
+
+    };
+
+});
+
+
+/* =========================================================
+   SPORTS SIDEBAR
+========================================================= */
+
+$$(".sport").forEach(button => {
+
+    button.onclick = () => {
+
+        $$(".sport").forEach(
+            item =>
+                item.classList.remove("active")
+        );
+
+        button.classList.add("active");
+
+        toast(
+            `${button.textContent.trim()} selected.`
+        );
+
+    };
+
+});
+
+
+/* =========================================================
+   AVIATOR SIMULATION
+========================================================= */
+
+/*
+
+   This is NOT a real gambling engine.
+
+   It uses:
+
+       - fictional virtual credits
+       - browser-only state
+       - random crash point
+       - animation
+       - cash-out mechanic
+
+   There is no real-money settlement.
+
+*/
+
+
+let balance = 10000;
+
+let gameRunning = false;
+
+let currentStake = 0;
+
+let currentMultiplier = 1;
+
+let crashPoint = 0;
+
+let animationFrame = null;
+
+let startTimestamp = 0;
+
+let cashedOut = false;
+
+
+/* -----------------------------------------
+   UPDATE BALANCE
+----------------------------------------- */
+
+function updateBalance(){
+
+    $("#balance").textContent =
+        balance.toLocaleString(
+            undefined,
+            {
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+updateBalance();
+
+
+/* -----------------------------------------
+   RANDOM CRASH POINT
+----------------------------------------- */
+
+function generateCrashPoint(){
+
+    /*
+       Heavily simplified random distribution.
+
+       It exists solely to create a game-like
+       animation for educational purposes.
+    */
+
+    const random =
+        Math.random();
+
+    if(random < .02)
+        return 1.00;
+
+    if(random < .15)
+        return 1.10 +
+            Math.random()*0.90;
+
+    if(random < .70)
+        return 2.00 +
+            Math.random()*4.00;
+
+    if(random < .94)
+        return 6.00 +
+            Math.random()*14.00;
+
+    return 20 +
+        Math.random()*80;
+
+}
+
+
+/* -----------------------------------------
+   START AVIATOR ROUND
+----------------------------------------- */
+
+$("#startRound").onclick = () => {
+
+    if(gameRunning){
+
+        toast(
+            "A demo round is already running."
+        );
+
+        return;
+
+    }
+
+    const stake =
+        Number($("#aviatorStake").value);
+
+    if(!stake || stake <= 0){
+
+        toast(
+            "Enter a valid demo stake."
+        );
+
+        return;
+
+    }
+
+    if(stake > balance){
+
+        toast(
+            "Insufficient fictional demo credits."
+        );
+
+        return;
+
+    }
+
+    balance -= stake;
+
+    updateBalance();
+
+    currentStake = stake;
+
+    crashPoint =
+        generateCrashPoint();
+
+    currentMultiplier = 1;
+
+    gameRunning = true;
+
+    cashedOut = false;
+
+    startTimestamp =
+        performance.now();
+
+    $("#startRound").disabled = true;
+
+    $("#cashOut").disabled = false;
+
+    $("#flightStatus").textContent =
+        "FLYING — CASH OUT BEFORE THE CRASH";
+
+    $("#multiplier").textContent =
+        "1.00x";
+
+    $("#plane").style.left =
+        "5%";
+
+    $("#plane").style.bottom =
+        "12%";
+
+    $("#flightLine").style.transform =
+        "rotate(-14deg)";
+
+    addGameLog(
+        `Round started — demo stake KSh ${stake.toLocaleString()}`
+    );
+
+    animationFrame =
+        requestAnimationFrame(
+            updateFlight
+        );
+
+};
+
+
+/* -----------------------------------------
+   FLIGHT ANIMATION
+----------------------------------------- */
+
+function updateFlight(timestamp){
+
+    if(!gameRunning)
+        return;
+
+    const elapsed =
+        (timestamp -
+            startTimestamp)
+        / 1000;
+
+    /*
+       Exponential-looking multiplier
+       for visual realism.
+    */
+
+    currentMultiplier =
+        Math.exp(
+            elapsed * 0.18
+        );
+
+    $("#multiplier").textContent =
+        currentMultiplier.toFixed(2)
+        + "x";
+
+    /*
+       Move plane
+    */
+
+    const progress =
+        Math.min(
+            elapsed / 25,
+            .92
+        );
+
+    $("#plane").style.left =
+        `${5 + progress*78}%`;
+
+    $("#plane").style.bottom =
+        `${12 + progress*48}%`;
+
+    /*
+       Crash
+    */
+
+    if(
+        currentMultiplier >=
+        crashPoint
+    ){
+
+        crashRound();
+
+        return;
+
+    }
+
+    animationFrame =
+        requestAnimationFrame(
+            updateFlight
+        );
+
+}
+
+
+/* -----------------------------------------
+   CASH OUT
+----------------------------------------- */
+
+$("#cashOut").onclick = () => {
+
+    if(!gameRunning){
+
+        return;
+
+    }
+
+    if(cashedOut){
+
+        return;
+
+    }
+
+    cashedOut = true;
+
+    const winnings =
+        currentStake *
+        currentMultiplier;
+
+    balance += winnings;
+
+    updateBalance();
+
+    $("#cashOut").disabled = true;
+
+    $("#flightStatus").textContent =
+        `DEMO CASH OUT @ ${currentMultiplier.toFixed(2)}x`;
+
+    addGameLog(
+        `Cashed out at ${currentMultiplier.toFixed(2)}x — virtual return KSh ${winnings.toFixed(2)}`
+    );
+
+    /*
+       Continue animation visually,
+       but the player's fictional bet
+       has already been settled.
+    */
+
+};
+
+
+/* -----------------------------------------
+   CRASH ROUND
+----------------------------------------- */
+
+function crashRound(){
+
+    gameRunning = false;
+
+    cancelAnimationFrame(
+        animationFrame
+    );
+
+    $("#multiplier").textContent =
+        crashPoint.toFixed(2)
+        + "x";
+
+    $("#flightStatus").textContent =
+        "💥 CRASHED — DEMO ROUND ENDED";
+
+    $("#cashOut").disabled = true;
+
+    $("#startRound").disabled = false;
+
+    if(!cashedOut){
+
+        addGameLog(
+            `Crashed at ${crashPoint.toFixed(2)}x — demo stake lost`
+        );
+
+        toast(
+            `Demo round crashed at ${crashPoint.toFixed(2)}x`
+        );
+
+    }else{
+
+        toast(
+            "Demo round ended."
+        );
+
+    }
+
+    currentStake = 0;
+
+}
+
+
+/* -----------------------------------------
+   GAME HISTORY
+----------------------------------------- */
+
+function addGameLog(message){
+
+    const log =
+        $("#gameLog");
+
+    const entry =
+        document.createElement(
+            "div"
+        );
+
+    const time =
+        new Date()
+        .toLocaleTimeString();
+
+    entry.textContent =
+        `${time} — ${message}`;
+
+    log.prepend(entry);
+
+    /*
+       Keep history small.
+    */
+
+    while(
+        log.children.length > 12
+    ){
+
+        log.removeChild(
+            log.lastChild
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DEMO LIVE COUNT
+========================================================= */
+
+setInterval(() => {
+
+    const element =
+        $("#liveCount");
+
+    const current =
+        Number(element.textContent);
+
+    const change =
+        Math.random() > .5
+            ? 1
+            : -1;
+
+    element.textContent =
+        Math.max(
+            100,
+            current + change
+        );
+
+},3500);
+
+
+/* =========================================================
+   FAKE LIVE NOTIFICATIONS
+========================================================= */
+
+const fakeMessages = [
+
+    "Demo user won KSh 4,200",
+
+    "Demo user cashed out at 3.41x",
+
+    "New simulated selection added",
+
+    "Demo player won KSh 12,800",
+
+    "Another demo round started",
+
+    "Educational simulation active"
+
+];
+
+setInterval(() => {
+
+    if(
+        document
+            .getElementById("intro")
+            .style
+            .display === "none"
+    ){
+
+        const message =
+            fakeMessages[
+                Math.floor(
+                    Math.random() *
+                    fakeMessages.length
+                )
+            ];
+
+        toast(
+            "📢 " + message
+        );
+
+    }
+
+},9000);
+
+
+/* =========================================================
+   PREVENT ACCIDENTAL REAL-FORM SUBMISSION
+========================================================= */
+
+document.addEventListener(
+    "submit",
+    event => {
+
+        /*
+           All forms are educational only.
+           Nothing is sent to a server.
+        */
+
+        if(
+            event.target.id !==
+            "loginForm"
+        ){
+
+            event.preventDefault();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
